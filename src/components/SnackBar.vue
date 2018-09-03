@@ -6,27 +6,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
-  data () {
-    return {
-
-    }
+  data() {
+    return {};
   },
   methods: {
     closeSnack: function() {
-      this.$store.commit('snack', '');
-      this.$store.dispatch('hideSnack');
+      this.$store.commit("snack", "");
+      this.$store.dispatch("hideSnack");
     }
   },
   computed: {
     ...mapGetters({
-      message: 'getSnackMessage',
-      show: 'getSnackShow',
-      timeoutVal: 'getSnackTimeout',
-      color: 'getSnackColor'
+      message: "getSnackMessage",
+      show: "getSnackShow",
+      timeoutVal: "getSnackTimeout",
+      color: "getSnackColor"
     })
   }
-}
+};
 </script>

@@ -11,7 +11,7 @@ const mutations = {
     state.show = true;
     state.color = payload.color;
     state.message = payload.message;
-    setTimeout(function(){
+    setTimeout(function () {
       state.show = false;
     }, state.timeout)
   },
@@ -21,16 +21,16 @@ const mutations = {
 }
 
 const actions = {
-  hideSnack (context) {
+  hideSnack(context) {
     context.commit('hideSnack')
   }
 }
 
 const getters = {
-  getSnackMessage (state) {
+  getSnackMessage(state) {
     return state.message;
   },
-  getSnackShow (state) {
+  getSnackShow(state) {
     return state.show;
   },
   getSnackTimeout(state) {

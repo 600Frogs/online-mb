@@ -190,22 +190,19 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
-import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
+import { mapFields } from "vuex-map-fields";
+import VuetifyGoogleAutocomplete from "vuetify-google-autocomplete";
 
 export default {
-  name: 'residentialdetails',
-  data () {
+  name: "residentialdetails",
+  data() {
     return {
       active: null,
       modalDOB: null
-    }
+    };
   },
   computed: {
-    ...mapFields([
-      'userData',
-      'userDataOps'
-    ]),
+    ...mapFields(["userData", "userDataOps"]),
     showSecondAdd() {
       var num = this.userData.residential.timeAtCurrent;
       if (num < 36) {
@@ -215,7 +212,9 @@ export default {
       }
     },
     showThirdAdd() {
-      var num = parseInt(this.userData.residential.timeAtCurrent) + parseInt(this.userData.residential.timeAtPrevious);
+      var num =
+        parseInt(this.userData.residential.timeAtCurrent) +
+        parseInt(this.userData.residential.timeAtPrevious);
       if (num < 36) {
         return true;
       } else {
@@ -231,7 +230,9 @@ export default {
       }
     },
     showThirdAdd2() {
-      var num = parseInt(this.userData.applicantTwo.residential.timeAtCurrent) + parseInt(this.userData.applicantTwo.residential.timeAtPrevious);
+      var num =
+        parseInt(this.userData.applicantTwo.residential.timeAtCurrent) +
+        parseInt(this.userData.applicantTwo.residential.timeAtPrevious);
       if (num < 36) {
         return true;
       } else {
@@ -240,7 +241,11 @@ export default {
     },
     needRentPaid() {
       var status = this.userData.residential.currentArrangement;
-      if (status == 'Renting through a Real Estate Agent' || status == 'Renting - Privately' || status == 'Boarding i.e. with parents or family') {
+      if (
+        status == "Renting through a Real Estate Agent" ||
+        status == "Renting - Privately" ||
+        status == "Boarding i.e. with parents or family"
+      ) {
         return true;
       } else {
         return false;
@@ -248,7 +253,11 @@ export default {
     },
     needRentPaid2() {
       var status = this.userData.applicantTwo.residential.currentArrangement;
-      if (status == 'Renting through a Real Estate Agent' || status == 'Renting - Privately' || status == 'Boarding i.e. with parents or family') {
+      if (
+        status == "Renting through a Real Estate Agent" ||
+        status == "Renting - Privately" ||
+        status == "Boarding i.e. with parents or family"
+      ) {
         return true;
       } else {
         return false;
@@ -264,42 +273,58 @@ export default {
   },
   methods: {
     copyAppOne: function() {
-      this.userData.applicantTwo.residential = JSON.parse(JSON.stringify(this.userData.residential));
+      this.userData.applicantTwo.residential = JSON.parse(
+        JSON.stringify(this.userData.residential)
+      );
     },
     validate: function() {
       var app1 = this.userData.residential;
       var app2 = this.userData.applicantTwo.residential;
-      if ((!app1.currentAddress || !app1.timeAtCurrent  || !app1.currentArrangement) ||
-          (this.showSecondAdd && (!app1.previousAddress || !app1.timeAtPrevious)) ||
-          (this.showThirdAdd && (!app1.previousAddress2 || !app1.timeAtPrevious2))) {
+      if (
+        //!app1.currentAddress ||
+        !app1.timeAtCurrent ||
+        !app1.currentArrangement ||
+        (this.showSecondAdd &&
+          (!app1.previousAddress || !app1.timeAtPrevious)) ||
+        (this.showThirdAdd && (!app1.previousAddress2 || !app1.timeAtPrevious2))
+      ) {
         this.userData.checkData.residentialDetailsApp1 = false;
       } else {
         this.userData.checkData.residentialDetailsApp1 = true;
       }
-      if (this.showApplicantTwo &&
-          ((!app2.currentAddress || !app2.timeAtCurrent  || !app2.currentArrangement) ||
-          (this.showSecondAdd2 && (!app2.previousAddress || !app2.timeAtPrevious)) ||
-          (this.showThirdAdd2 && (!app2.previousAddress2 || !app2.timeAtPrevious2)))) {
+      if (
+        this.showApplicantTwo && //!app2.currentAddress ||
+        (!app2.timeAtCurrent ||
+          !app2.currentArrangement ||
+          (this.showSecondAdd2 &&
+            (!app2.previousAddress || !app2.timeAtPrevious)) ||
+          (this.showThirdAdd2 &&
+            (!app2.previousAddress2 || !app2.timeAtPrevious2)))
+      ) {
         this.userData.checkData.residentialDetailsApp2 = false;
       } else {
         this.userData.checkData.residentialDetailsApp2 = true;
       }
 
-      if (this.userData.checkData.residentialDetailsApp1 == true && this.userData.checkData.residentialDetailsApp2 == true){
-        this.userData.checkData.residentialDetails = true;
-      } else {
-        this.userData.checkData.residentialDetails = false;
-      }
+      this.userData.checkData.residentialDetails =
+        this.userData.checkData.residentialDetailsApp1 &&
+        this.userData.checkData.residentialDetailsApp2;
     }
   },
 
-  watch: {
-
-  }
-}
+  watch: {}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h2{margin:18px}.validationError{color:red;margin-top:-20px;margin-bottom:-20px;padding-bottom:6px;}
+h2 {
+  margin: 18px;
+}
+.validationError {
+  color: red;
+  margin-top: -20px;
+  margin-bottom: -20px;
+  padding-bottom: 6px;
+}
 </style>

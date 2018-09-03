@@ -101,29 +101,28 @@
         </v-data-table>
       </v-layout>
     </v-container>
-    >
     <filterHomeLoans ref="filterHomeLoans"></filterHomeLoans>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase'
-import { createHelpers } from 'vuex-map-fields'
-import filterHomeLoans from '@/components/filterHomeLoans'
-import maxLoan from '@/components/maxLoan'
+import firebase from "firebase";
+import { createHelpers } from "vuex-map-fields";
+import filterHomeLoans from "@/components/filterHomeLoans";
+import maxLoan from "@/components/maxLoan";
 
 const { mapFields: mapLenderFields } = createHelpers({
-  getterType: 'lenderData/getField',
-  mutationType: 'lenderData/updateField',
+  getterType: "lenderData/getField",
+  mutationType: "lenderData/updateField"
 });
 const { mapFields: mapUserFields } = createHelpers({
-  getterType: 'getField',
-  mutationType: 'updateField',
+  getterType: "getField",
+  mutationType: "updateField"
 });
 
 export default {
-  name: 'HomeLoans',
-  data () {
+  name: "HomeLoans",
+  data() {
     return {
       eligibleFilter: true,
       loading: false,
@@ -133,169 +132,208 @@ export default {
       redrawFilter: false,
       typeFilter: "All",
       headers: [
-       { text: 'Select', sortable: false, value: 'selected' },
-       { text: 'Eligible', value: 'eligible' },
-       { text: 'Proposed Loan', value: 'proposedLoan'},
-       { text: 'Est. Max Loan', value: 'maxLoan'},
-       { text: 'Fixed/Intro Rate', value: 'fixedRate'},
-       { text: 'Interest Rate', value: 'interestRate' },
-       { text: 'Monthly Repayments', value: 'lowestRepayment' },
-       { text: 'Upfront Fees', value: 'upfrontFees' },
-       { text: 'Ongoing Fees', value: 'annualFees' },
-       { text: 'Offset Account', value: 'offsetAccount' },
-       { text: 'Free Redraw', value: 'redraw' },
-    ],
-    items:[]
-    }
+        { text: "Select", sortable: false, value: "selected" },
+        { text: "Eligible", value: "eligible" },
+        { text: "Proposed Loan", value: "proposedLoan" },
+        { text: "Est. Max Loan", value: "maxLoan" },
+        { text: "Fixed/Intro Rate", value: "fixedRate" },
+        { text: "Interest Rate", value: "interestRate" },
+        { text: "Monthly Repayments", value: "lowestRepayment" },
+        { text: "Upfront Fees", value: "upfrontFees" },
+        { text: "Ongoing Fees", value: "annualFees" },
+        { text: "Offset Account", value: "offsetAccount" },
+        { text: "Free Redraw", value: "redraw" }
+      ],
+      items: []
+    };
   },
   components: {
     filterHomeLoans,
     maxLoan
   },
   computed: {
-    ...mapLenderFields([
-      'lenderData',
-      'lenderDataOps'
-    ]),
-    ...mapUserFields([
-      'userData',
-      'userDataOps'
-    ]),
+    ...mapLenderFields(["lenderData", "lenderDataOps"]),
+    ...mapUserFields(["userData", "userDataOps"]),
     LVR() {
-      var loanAmount = this.userData.proposedLoan.purchasePrice - this.userData.proposedLoan.deposit;
-      var lvr = 100*loanAmount/this.userData.proposedLoan.purchasePrice;
-      return Math.round(lvr*100)/100;
+      var loanAmount =
+        this.userData.proposedLoan.purchasePrice -
+        this.userData.proposedLoan.deposit;
+      var lvr = 100 * loanAmount / this.userData.proposedLoan.purchasePrice;
+      return Math.round(lvr * 100) / 100;
     },
     authenticated() {
       return this.$store.state.authenticated;
-    },
+    }
   },
   methods: {
-
-      updateData: function() {
-          var vm = this;
-          vm.loading=true;
-          vm.$refs.filterHomeLoans.filter();
-          var products = [];
-          for (var lender in this.lenderData) {
-            for (var i in this.lenderData[lender].products) {
-              var product = this.lenderData[lender].products[i];
-              if (this.userData.proposedLoan.propertyType=="Owner Occupied"&&!product.ownerOccupied){continue;}
-              if (this.userData.proposedLoan.propertyType=="Investment"&&!product.investment){continue;}
-              if (this.eligibleFilter == true && !product.eligible ) {continue;}
-              if (this.typeFilter == 'Variable Only' && product.fixedPeriod>0) {continue;}
-              if (this.typeFilter == 'Fixed Only' && product.fixedPeriod<1) {continue;}
-              if (this.noUpfrontFeesFilter == true && product.upfrontFees !=0 ) {continue;}
-              if (this.noOngoingFeesFilter == true && (product.monthlyFees != 0 || product.annualFees!=0 )) {continue;}
-              if (this.offsetFilter == true && product.offsetAccount == 'No') {continue;}
-              if (this.redrawFilter == true && product.redraw == 'No' ) {continue;}
-              products.push({
-                "lenderRef":lender,
-                "productsRef":i,
-                "expanded":false,
-                "selected":product.selected,
-                "eligible":product.eligible,
-                "proposedAmount":product.proposedAmount,
-                "fixedRate":product.fixedRate,
-                "fixedPeriod":product.fixedPeriod,
-                "introRate":product.introRate,
-                "introPeriod":product.introPeriod,
-                "interestRate":product.interestRate,
-                "maxLoan":vm.$refs.maxLoan.calculateMaxLoan(this.lenderData[lender], product),
-                "repayments":this.calculateRepayments(product, "variable"),
-                "fixedRepayments":this.calculateRepayments(product, "fixed"),
-                "introRepayments":this.calculateRepayments(product, "intro"),
-                "lowestRepayment":this.lowestRepayment(product),
-                "upfrontFees":product.upfrontFees,
-                "monthlyFees":product.monthlyFees,
-                "annualFees":product.annualFees,
-                "exitFees":product.exitFees,
-                "offsetAccount":product.offsetAccount,
-                "offsetAccountFees":product.offsetAccountFees,
-                "redraw":product.redraw,
-                "redrawFee":product.redrawFee,
-                "minAmount":product.minAmount,
-                "maxAmount":product.maxAmount,
-                "cashBack":product.cashBack,
-                "notes":product.notes
-              })
-            }
+    updateData: function() {
+      var vm = this;
+      vm.loading = true;
+      vm.$refs.filterHomeLoans.filter();
+      var products = [];
+      for (var lender in this.lenderData) {
+        for (var i in this.lenderData[lender].products) {
+          var product = this.lenderData[lender].products[i];
+          if (
+            this.userData.proposedLoan.propertyType == "Owner Occupied" &&
+            !product.ownerOccupied
+          ) {
+            continue;
           }
-
-          this.items=products;
-          vm.loading=false;
-          vm.$forceUpdate();
-      },
-      calculateRepayments: function (product, type){
-          var principal= product.proposedAmount; //Get the input principal amount
-          var interest = product.interestRate/100/12;
-
-          var payments = this.userData.proposedLoan.term*12;
-
-          if (type=='fixed' || product.fixedPeriod>0){
-            interest = product.fixedRate/100/12;
+          if (
+            this.userData.proposedLoan.propertyType == "Investment" &&
+            !product.investment
+          ) {
+            continue;
           }
-          if (type=='intro'|| product.introPeriod>0){
-            interest = product.introRate/100/12;
+          if (this.eligibleFilter && !product.eligible) {
+            continue;
           }
-
-          var x = Math.pow(1+interest, -payments);
-          var monthly = (principal*interest)/(1-x);
-          if (type=='variable' && (product.fixedRate>0 || product.introRate>0)){
-            var remainingPayments = payments-product.fixedPeriod*12-product.introPeriod*12;
-            var y = Math.pow(1+interest, -remainingPayments);
-            var pV = (monthly*(1-y))/interest;
-            interest = product.interestRate/100/12;
-            y = Math.pow(1+interest, -remainingPayments);
-            monthly = (pV*interest)/(1-y);
+          if (this.typeFilter == "Variable Only" && product.fixedPeriod > 0) {
+            continue;
           }
-
-          if(!isNaN(monthly) &&
-              (monthly != Number.POSITIVE_INFINITY)&&
-              (monthly != Number.NEGATIVE_INFINITY)){
-
-                  return Math.round(monthly*100)/100;
-                  }
-      },
-      updateProposedAmount: function(props){
-        this.lenderData[props.item.lenderRef].products[props.item.productsRef].proposedAmount=props.item.proposedAmount;
-      },
-      defaultProposedAmount: function() {
-        this.userData.proposedLoan.amount = this.userData.proposedLoan.purchasePrice - this.userData.proposedLoan.deposit;
-        for (var i in this.lenderData){
-          for (var j in this.lenderData[i].products){
-            this.lenderData[i].products[j].proposedAmount = this.userData.proposedLoan.amount;
+          if (this.typeFilter == "Fixed Only" && product.fixedPeriod < 1) {
+            continue;
           }
+          if (this.noUpfrontFeesFilter && product.upfrontFees != 0) {
+            continue;
+          }
+          if (
+            this.noOngoingFeesFilter &&
+            (product.monthlyFees != 0 || product.annualFees != 0)
+          ) {
+            continue;
+          }
+          if (this.offsetFilter && product.offsetAccount == "No") {
+            continue;
+          }
+          if (this.redrawFilter && product.redraw == "No") {
+            continue;
+          }
+          products.push({
+            lenderRef: lender,
+            productsRef: i,
+            expanded: false,
+            selected: product.selected,
+            eligible: product.eligible,
+            proposedAmount: product.proposedAmount,
+            fixedRate: product.fixedRate,
+            fixedPeriod: product.fixedPeriod,
+            introRate: product.introRate,
+            introPeriod: product.introPeriod,
+            interestRate: product.interestRate,
+            maxLoan: vm.$refs.maxLoan.calculateMaxLoan(
+              this.lenderData[lender],
+              product
+            ),
+            repayments: this.calculateRepayments(product, "variable"),
+            fixedRepayments: this.calculateRepayments(product, "fixed"),
+            introRepayments: this.calculateRepayments(product, "intro"),
+            lowestRepayment: this.lowestRepayment(product),
+            upfrontFees: product.upfrontFees,
+            monthlyFees: product.monthlyFees,
+            annualFees: product.annualFees,
+            exitFees: product.exitFees,
+            offsetAccount: product.offsetAccount,
+            offsetAccountFees: product.offsetAccountFees,
+            redraw: product.redraw,
+            redrawFee: product.redrawFee,
+            minAmount: product.minAmount,
+            maxAmount: product.maxAmount,
+            cashBack: product.cashBack,
+            notes: product.notes
+          });
         }
-      },
-      lowestRepayment: function(product){
-        var variable = this.calculateRepayments(product, "variable");
-        var fixed;
-        var intro;
-        if (product.fixedPeriod>0){
-          fixed=this.calculateRepayments(product, "fixed")
-        } else {
-          fixed = 10000000;
-        }
-        if (product.introPeriod>0){
-          intro=this.calculateRepayments(product, "intro")
-        } else {
-          intro = 10000000;
-        }
-        return Math.min(variable, fixed, intro);
       }
 
+      this.items = products;
+      vm.loading = false;
+      vm.$forceUpdate();
+    },
+    calculateRepayments: function(product, type) {
+      var principal = product.proposedAmount; //Get the input principal amount
+      var interest = product.interestRate / 100 / 12;
+
+      var payments = this.userData.proposedLoan.term * 12;
+
+      if (type == "fixed" || product.fixedPeriod > 0) {
+        interest = product.fixedRate / 100 / 12;
+      }
+      if (type == "intro" || product.introPeriod > 0) {
+        interest = product.introRate / 100 / 12;
+      }
+
+      var x = Math.pow(1 + interest, -payments);
+      var monthly = principal * interest / (1 - x);
+      if (
+        type == "variable" &&
+        (product.fixedRate > 0 || product.introRate > 0)
+      ) {
+        var remainingPayments =
+          payments - product.fixedPeriod * 12 - product.introPeriod * 12;
+        var y = Math.pow(1 + interest, -remainingPayments);
+        var pV = monthly * (1 - y) / interest;
+        interest = product.interestRate / 100 / 12;
+        y = Math.pow(1 + interest, -remainingPayments);
+        monthly = pV * interest / (1 - y);
+      }
+
+      if (
+        !isNaN(monthly) &&
+        monthly != Number.POSITIVE_INFINITY &&
+        monthly != Number.NEGATIVE_INFINITY
+      ) {
+        return Math.round(monthly * 100) / 100;
+      }
+    },
+    updateProposedAmount: function(props) {
+      this.lenderData[props.item.lenderRef].products[
+        props.item.productsRef
+      ].proposedAmount =
+        props.item.proposedAmount;
+    },
+    defaultProposedAmount: function() {
+      this.userData.proposedLoan.amount =
+        this.userData.proposedLoan.purchasePrice -
+        this.userData.proposedLoan.deposit;
+      for (var i in this.lenderData) {
+        for (var j in this.lenderData[i].products) {
+          this.lenderData[i].products[
+            j
+          ].proposedAmount = this.userData.proposedLoan.amount;
+        }
+      }
+    },
+    lowestRepayment: function(product) {
+      var variable = this.calculateRepayments(product, "variable");
+      var fixed;
+      var intro;
+      if (product.fixedPeriod > 0) {
+        fixed = this.calculateRepayments(product, "fixed");
+      } else {
+        fixed = 10000000;
+      }
+      if (product.introPeriod > 0) {
+        intro = this.calculateRepayments(product, "intro");
+      } else {
+        intro = 10000000;
+      }
+      return Math.min(variable, fixed, intro);
+    }
   },
   mounted: function() {
     this.defaultProposedAmount();
     this.updateData();
   }
-
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  td{padding: 0px 8px;}
-  .tabelTextField{max-width:100px;}
+td {
+  padding: 0px 8px;
+}
+.tabelTextField {
+  max-width: 100px;
+}
 </style>

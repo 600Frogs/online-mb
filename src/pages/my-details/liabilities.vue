@@ -76,26 +76,23 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
+import { mapFields } from "vuex-map-fields";
 
 export default {
-  name: 'income',
-  data () {
+  name: "income",
+  data() {
     return {
       active: null,
       modalDOB: null
-    }
+    };
   },
   computed: {
-    ...mapFields([
-      'userData',
-      'userDataOps'
-    ]),
+    ...mapFields(["userData", "userDataOps"]),
     realEstate() {
-      var arr=[];
+      var arr = [];
       var arraylength = this.userData.assets.additionalAssets.length;
-      for (var i = 0; i < arraylength; i++){
-        if (this.userData.assets.additionalAssets[i].type == 'Real Estate') {
+      for (var i = 0; i < arraylength; i++) {
+        if (this.userData.assets.additionalAssets[i].type == "Real Estate") {
           arr.push(this.userData.assets.additionalAssets[i].address);
         }
       }
@@ -104,26 +101,30 @@ export default {
   },
   methods: {
     addLiability: function() {
-      this.$store.commit('addLiability', "I'm not important! ");
+      this.$store.commit("addLiability", "I'm not important! ");
     },
     removeLiability: function(i) {
-      this.$store.commit('removeLiability', i);
+      this.$store.commit("removeLiability", i);
     },
     validate: function() {
-      if (this.userData.liabilities.livingExpenses.basicLivingExpenses<1){
-        this.userData.checkData.liabilitiesDetails= false;
+      if (this.userData.liabilities.livingExpenses.basicLivingExpenses < 1) {
+        this.userData.checkData.liabilitiesDetails = false;
       } else {
-        this.userData.checkData.liabilitiesDetails= true;
+        this.userData.checkData.liabilitiesDetails = true;
       }
     }
   },
-  watch: {
-
-  }
-}
+  watch: {}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h2{margin:18px}.validationError{color:red;margin-top:-20px}
+h2 {
+  margin: 18px;
+}
+.validationError {
+  color: red;
+  margin-top: -20px;
+}
 </style>

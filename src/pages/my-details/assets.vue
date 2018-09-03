@@ -65,21 +65,18 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
+import { mapFields } from "vuex-map-fields";
 
 export default {
-  name: 'assets',
-  data () {
+  name: "assets",
+  data() {
     return {
       active: null,
       modalDOB: null
-    }
+    };
   },
   computed: {
-    ...mapFields([
-      'userData',
-      'userDataOps'
-    ]),
+    ...mapFields(["userData", "userDataOps"]),
     showApplicantTwo() {
       if (this.userData.numberOfApplicants == "Two") {
         return true;
@@ -88,7 +85,11 @@ export default {
       }
     },
     showRealEstate() {
-      if (this.userData.assets.sourceOfDeposit == 'Savings - held for less than 3 months' || this.userData.assets.sourceOfDeposit == 'Gift from parents') {
+      if (
+        this.userData.assets.sourceOfDeposit ==
+          "Savings - held for less than 3 months" ||
+        this.userData.assets.sourceOfDeposit == "Gift from parents"
+      ) {
         return true;
       } else {
         return false;
@@ -97,32 +98,43 @@ export default {
   },
   methods: {
     addAsset: function() {
-      this.$store.commit('addAsset', "I'm not important! ");
+      this.$store.commit("addAsset", "I'm not important! ");
     },
     removeAsset: function(i) {
-      this.$store.commit('removeAsset', i);
+      this.$store.commit("removeAsset", i);
     },
     addAsset2: function() {
-      this.$store.commit('addAsset2', "I'm not important! ");
+      this.$store.commit("addAsset2", "I'm not important! ");
     },
     removeAsset2: function(i) {
-      this.$store.commit('removeAsset2', i);
+      this.$store.commit("removeAsset2", i);
     },
     validate: function() {
-      if (this.userData.assets.depositAvailable<1 || !this.userData.assets.sourceOfDeposit){
-        this.userData.checkData.assetDetails= false;
+      if (
+        this.userData.assets.depositAvailable < 1 ||
+        !this.userData.assets.sourceOfDeposit
+      ) {
+        this.userData.checkData.assetDetails = false;
       } else {
-        this.userData.checkData.assetDetails= true;
+        this.userData.checkData.assetDetails = true;
       }
     }
   },
-  watch: {
-
-  }
-}
+  watch: {}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h2{margin:18px}.validationError{color:red;margin-top:-20px;margin-bottom:-21px}.pushDown{margin-top:25px}
+h2 {
+  margin: 18px;
+}
+.validationError {
+  color: red;
+  margin-top: -20px;
+  margin-bottom: -21px;
+}
+.pushDown {
+  margin-top: 25px;
+}
 </style>

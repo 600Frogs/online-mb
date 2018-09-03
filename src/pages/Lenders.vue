@@ -312,70 +312,72 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import { createHelpers } from 'vuex-map-fields'
+import firebase from "firebase";
+import { createHelpers } from "vuex-map-fields";
 
 const { mapFields } = createHelpers({
-  getterType: 'lenderData/getField',
-  mutationType: 'lenderData/updateField',
+  getterType: "lenderData/getField",
+  mutationType: "lenderData/updateField"
 });
 
 export default {
-  name: 'Lenders',
-  data () {
+  name: "Lenders",
+  data() {
     return {
       loading: false
-    }
+    };
   },
   computed: {
-    ...mapFields([
-      'lenderData',
-      'lenderDataOps'
-    ])
+    ...mapFields(["lenderData", "lenderDataOps"])
   },
   methods: {
     createProduct: function(lender) {
       this.lenderData[this.lenderData.indexOf(lender)].products.push({
-        "name":"TBA",
-        "maxLVRExcLMI":95,
-        "maxLVRIncLMI":95,
-        "interestRate":4.19,
-        "fixedRate":0,
-        "fixedPeriod":0,
-        "introRate":0,
-        "introPeriod":0,
-        "ownerOccupied":true,
-        "investment":false,
-        "repaymentOptions":"Principal & Interest Only",
-        "minAmount":10000,
-        "maxAmount":2000000,
-        "firstHomeBuyersOnly":"No",
-        "upfrontFees":200,
-        "monthlyFees":0,
-        "annualFees":395,
-        "exitFees":295,
-        "offsetAccount":"No",
-        "offsetAccountFees": 0,
-        "redraw":"Yes",
-        "redrawFee":0,
-        "cashBack":0,
-        "notes":"",
-        "proposedAmount":200000,
-        "selected":false,
-        "eligible":false,
-        "ineligibleReasons":[]
+        name: "TBA",
+        maxLVRExcLMI: 95,
+        maxLVRIncLMI: 95,
+        interestRate: 4.19,
+        fixedRate: 0,
+        fixedPeriod: 0,
+        introRate: 0,
+        introPeriod: 0,
+        ownerOccupied: true,
+        investment: false,
+        repaymentOptions: "Principal & Interest Only",
+        minAmount: 10000,
+        maxAmount: 2000000,
+        firstHomeBuyersOnly: "No",
+        upfrontFees: 200,
+        monthlyFees: 0,
+        annualFees: 395,
+        exitFees: 295,
+        offsetAccount: "No",
+        offsetAccountFees: 0,
+        redraw: "Yes",
+        redrawFee: 0,
+        cashBack: 0,
+        notes: "",
+        proposedAmount: 200000,
+        selected: false,
+        eligible: false,
+        ineligibleReasons: []
       });
       var vm = this;
       vm.$forceUpdate();
     },
     deleteProduct: function(product, lender) {
-      this.lenderData[this.lenderData.indexOf(lender)].products.splice(this.lenderData[this.lenderData.indexOf(lender)].products.indexOf(product), 1);
+      this.lenderData[this.lenderData.indexOf(lender)].products.splice(
+        this.lenderData[this.lenderData.indexOf(lender)].products.indexOf(
+          product
+        ),
+        1
+      );
       var vm = this;
       vm.$forceUpdate();
     },
     createLender: function() {
       this.lenderData.push({
-        name:"TBA",
+        name: "TBA",
         maxLVRIncLMI: 80,
         maxLVRExcLMI: 80,
         assessmentRate: 7.25,
@@ -395,39 +397,81 @@ export default {
           taxReturn: false
         },
         mle: [
-          {name:"Single No Dependents", fifty: 1354, seventy: 1457,ninety: 1785, oneten: 1876, onefifty:2193, twohundred: 2430, threehundred:3171},
-          {name:"Single One Dependent", fifty: 1618, seventy: 1722,ninety: 2051, oneten: 2142, onefifty:2460, twohundred: 2698, threehundred:3443},
-          {name:"Single Two Dependents", fifty: 1958, seventy: 2062,ninety: 2391, oneten: 2482, onefifty:2800, twohundred: 3783, threehundred:3783},
-          {name:"Partnered No Dependents", fifty: 2218, seventy: 2322,ninety: 2651, oneten: 2741, onefifty:3059, twohundred: 3297, threehundred:4042},
-          {name:"Partnered One Dependent", fifty: 2405, seventy: 2509,ninety: 2839, oneten: 2929, onefifty:3247, twohundred: 3486, threehundred:4231},
-          {name:"Partnered Two Dependents", fifty: 2922, seventy: 3027,ninety: 3357, oneten: 3448, onefifty:3767, twohundred: 4006, threehundred:4753}
+          {
+            name: "Single No Dependents",
+            fifty: 1354,
+            seventy: 1457,
+            ninety: 1785,
+            oneten: 1876,
+            onefifty: 2193,
+            twohundred: 2430,
+            threehundred: 3171
+          },
+          {
+            name: "Single One Dependent",
+            fifty: 1618,
+            seventy: 1722,
+            ninety: 2051,
+            oneten: 2142,
+            onefifty: 2460,
+            twohundred: 2698,
+            threehundred: 3443
+          },
+          {
+            name: "Single Two Dependents",
+            fifty: 1958,
+            seventy: 2062,
+            ninety: 2391,
+            oneten: 2482,
+            onefifty: 2800,
+            twohundred: 3783,
+            threehundred: 3783
+          },
+          {
+            name: "Partnered No Dependents",
+            fifty: 2218,
+            seventy: 2322,
+            ninety: 2651,
+            oneten: 2741,
+            onefifty: 3059,
+            twohundred: 3297,
+            threehundred: 4042
+          },
+          {
+            name: "Partnered One Dependent",
+            fifty: 2405,
+            seventy: 2509,
+            ninety: 2839,
+            oneten: 2929,
+            onefifty: 3247,
+            twohundred: 3486,
+            threehundred: 4231
+          },
+          {
+            name: "Partnered Two Dependents",
+            fifty: 2922,
+            seventy: 3027,
+            ninety: 3357,
+            oneten: 3448,
+            onefifty: 3767,
+            twohundred: 4006,
+            threehundred: 4753
+          }
         ],
         additionalDependents: {
-          single: 210,//single 3 dep on 50k is 2082
+          single: 210, //single 3 dep on 50k is 2082
           partnered: 260
         },
         servicingBuffer: {
-          percent:5,
-          surplus:0
+          percent: 5,
+          surplus: 0
         },
         rentalPolicy: "No",
         minMonthsForRentalPolicy: 12,
-        ninetyLVRPostcodes: [
-          "0000",
-          "1111"
-        ],
-        eightyLVRPostcodes: [
-          "2222",
-          "3333"
-        ],
-        seventyLVRPostcodes: [
-          "4444",
-          "5555"
-        ],
-        unacceptablePostcodes: [
-          "6666",
-          "7777"
-        ],
+        ninetyLVRPostcodes: ["0000", "1111"],
+        eightyLVRPostcodes: ["2222", "3333"],
+        seventyLVRPostcodes: ["4444", "5555"],
+        unacceptablePostcodes: ["6666", "7777"],
         products: [],
         eligible: false,
         ineligibleReasons: []
@@ -440,17 +484,14 @@ export default {
       var vm = this;
       vm.$forceUpdate();
     }
-
   },
-  created: function() {
-
-  }
-}
+  created: function() {}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h3 {
-    padding: 30px;
-  }
+h3 {
+  padding: 30px;
+}
 </style>

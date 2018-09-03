@@ -8,32 +8,29 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import loginButtons from '@/components/LoginButtons'
+import { mapGetters } from "vuex";
+import loginButtons from "@/components/LoginButtons";
 
-  export default {
-    name: 'topBar',
-    data: function() {
-      return {
-
-      }
-    },
-    components: {
-      loginButtons
-    },
-    methods: {
-      toggleSideBar(){
-        this.$store.dispatch('toggleSideBar');
-      }
-    },
-    computed: {
-      ...mapGetters ({
-        drawer: 'getDrawerState'
-      })
+export default {
+  name: "topBar",
+  data: function() {
+    return {};
+  },
+  components: {
+    loginButtons
+  },
+  methods: {
+    toggleSideBar() {
+      this.$store.dispatch("toggleSideBar");
     }
+  },
+  computed: {
+    ...mapGetters({
+      drawer: "getDrawerState"
+    })
   }
+};
 </script>
 
 <style scoped>
-
 </style>

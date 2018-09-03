@@ -89,72 +89,76 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
-import firebase from 'firebase'
+import { mapFields } from "vuex-map-fields";
+import firebase from "firebase";
 
-    export default {
-        name: 'Questionaire',
-        data: function () {
-            return {
-              e1: 0,
-              modal: null
-            }
-          },
-        methods: {
-          saveData: function() {
-            var vm = this;
-            if (this.authenticated) {
-              var data = {};
-              for (var element in vm.userData) {
-                data[element] = vm.userData[element];
-              };
-              firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).set(
-                data
-              ).then(function(doc) {
-
-              }).catch(function(error) {
-
-              });
-            } else {
-              vm.$store.commit('setUserData', vm.userData);
-            }
-          },
-          loadData: function() {
-            var vm = this;
-            if (this.authenticated) {
-              ;
-              firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get().then(function(doc) {
-                if (doc.exists) {
-                  for (var element in doc.data()) {
-                    vm.userData[element] = (doc.data()[element]);
-                  };
-                } else {
-                    console.log("No such document!");
-                }
-              }).catch(function(error) {
-                  console.log("Error getting document:", error);
-              });
-            }
-          }
-        },
-        computed: {
-          authenticated() {
-            return this.$store.state.authenticated;
-          },
-          ...mapFields(['userData', 'userDataOps'])
-        },
-        created: function() {
-          this.loadData();
-        },
-        beforeDestroy: function() {
-          this.saveData();
-        }
+export default {
+  name: "Questionaire",
+  data: function() {
+    return {
+      e1: 0,
+      modal: null
     };
+  },
+  methods: {
+    saveData: function() {
+      var vm = this;
+      if (this.authenticated) {
+        var data = {};
+        for (var element in vm.userData) {
+          data[element] = vm.userData[element];
+        }
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .set(data)
+          .then(function(doc) {})
+          .catch(function(error) {});
+      } else {
+        vm.$store.commit("setUserData", vm.userData);
+      }
+    },
+    loadData: function() {
+      var vm = this;
+      if (this.authenticated) {
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .get()
+          .then(function(doc) {
+            if (doc.exists) {
+              for (var element in doc.data()) {
+                vm.userData[element] = doc.data()[element];
+              }
+            } else {
+              console.log("No such document!");
+            }
+          })
+          .catch(function(error) {
+            console.log("Error getting document:", error);
+          });
+      }
+    }
+  },
+  computed: {
+    authenticated() {
+      return this.$store.state.authenticated;
+    },
+    ...mapFields(["userData", "userDataOps"])
+  },
+  created: function() {
+    this.loadData();
+  },
+  beforeDestroy: function() {
+    this.saveData();
+  }
+};
 </script>
 
 <style scoped>
-    v-stepper{
-        vertical-align:middle;
-    }
-
+v-stepper {
+  vertical-align: middle;
+}
 </style>

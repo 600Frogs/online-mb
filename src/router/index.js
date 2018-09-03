@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import firebase from 'firebase'
 
-import Questionaire from '@/pages/Questionaire'
+//import Questionaire from '@/pages/Questionaire'
 import HomeLoans from '@/pages/HomeLoans'
 import MyDetails from '@/pages/MyDetails'
 import CostToPurchase from '@/pages/CostToPurchase'
@@ -53,12 +52,12 @@ let router = new Router({
 })
 
 //router.beforeEach((to, from, next) => {
-  //let currentUser = firebase.auth().currentUser;
-  //let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//let currentUser = firebase.auth().currentUser;
+//let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  //if (requiresAuth && !currentUser) next('login')
-  //else if (!requiresAuth && currentUser) next('home-loans')
-  //else next()
+//if (requiresAuth && !currentUser) next('login')
+//else if (!requiresAuth && currentUser) next('home-loans')
+//else next()
 //})
 
 export default router

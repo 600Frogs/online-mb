@@ -45,99 +45,108 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import { mapGetters } from 'vuex'
+import firebase from "firebase";
+import { mapGetters } from "vuex";
 
-  export default {
-    name: 'login',
-    data: function() {
-      return {
-        password: '',
-        popUpLogin: false,
-        popUpSignUp: false,
-        loading: false
-      }
-    },
-    methods: {
-      signIn: function() {
-        var vm = this;
-        this.loading=true;
-        firebase.auth().signInWithEmailAndPassword(this.userData.email, this.password).then(
-          function (user) {
-
-            vm.$store.commit('snack', {
-              'color': 'success',
-              'message': 'Success!'
+export default {
+  name: "login",
+  data: function() {
+    return {
+      password: "",
+      popUpLogin: false,
+      popUpSignUp: false,
+      loading: false
+    };
+  },
+  methods: {
+    signIn: function() {
+      var vm = this;
+      this.loading = true;
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.userData.email, this.password)
+        .then(
+          function(user) {
+            vm.$store.commit("snack", {
+              color: "success",
+              message: "Success!"
             });
             vm.popUpLogin = false;
-            vm.loading=false;
+            vm.loading = false;
           },
-          function (err) {
-            vm.$store.commit('snack', {
-              'color': 'error',
-              'message': 'Oops! ' + err.message
+          function(err) {
+            vm.$store.commit("snack", {
+              color: "error",
+              message: "Oops! " + err.message
             });
-            vm.loading=false;
+            vm.loading = false;
           }
         );
-      },
-      signUp: function() {
-        var vm = this;
-        this.loading=true;
-        firebase.auth().createUserWithEmailAndPassword(this.userData.email, this.password).then(
-          function (user) {
+    },
+    signUp: function() {
+      var vm = this;
+      this.loading = true;
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.userData.email, this.password)
+        .then(
+          function(user) {
             vm.createUser(user);
-            vm.$store.commit('snack', {
-              'color': 'success',
-              'message': 'Success! Account has been created.'
+            vm.$store.commit("snack", {
+              color: "success",
+              message: "Success! Account has been created."
             });
-            vm.loading=false;
+            vm.loading = false;
           },
-          function (err) {
-            vm.$store.commit('snack', {
-              'color': 'error',
-              'message': 'Oops! ' + err.message
+          function(err) {
+            vm.$store.commit("snack", {
+              color: "error",
+              message: "Oops! " + err.message
             });
-            vm.loading=false;
+            vm.loading = false;
           }
         );
-      },
-      createUser: function(user) {
-        var vm = this;
-        this.loading=true;
-        var data = {};
-        for (var element in vm.userData) {
-          data[element] = vm.userData[element];
-        };
-        firebase.firestore().collection("users").doc(user.user.uid).set(
-          data
-        )
-      },
-      logout: function() {
-        var vm = this;
-        this.loading=true;
-        firebase.auth().signOut().then(() => {
-          vm.$store.commit('snack', {
-            'color': 'success',
-            'message': 'You have successfully logged out.'
+    },
+    createUser: function(user) {
+      var vm = this;
+      this.loading = true;
+      var data = {};
+      for (var element in vm.userData) {
+        data[element] = vm.userData[element];
+      }
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(user.user.uid)
+        .set(data);
+    },
+    logout: function() {
+      var vm = this;
+      this.loading = true;
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          vm.$store.commit("snack", {
+            color: "success",
+            message: "You have successfully logged out."
           });
           vm.popUpLogin = false;
-          this.loading=false;
-          vm.$store.commit('resetUserData', 'Im not important');
-        })
-      }
-    },
-    computed: {
-      authenticated() {
-        return this.$store.state.authenticated;
-      },
-      ...mapGetters({
-        userData: 'getUserData'
-      })
+          this.loading = false;
+          vm.$store.commit("resetUserData", "Im not important");
+        });
     }
+  },
+  computed: {
+    authenticated() {
+      return this.$store.state.authenticated;
+    },
+    ...mapGetters({
+      userData: "getUserData"
+    })
   }
+};
 </script>
 
 <style scoped>
-
 </style>

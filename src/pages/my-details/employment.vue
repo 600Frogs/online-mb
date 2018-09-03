@@ -272,23 +272,20 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
-import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete';
+import { mapFields } from "vuex-map-fields";
+import VuetifyGoogleAutocomplete from "vuetify-google-autocomplete";
 
 export default {
-  name: 'employmentdetails',
-  data () {
+  name: "employmentdetails",
+  data() {
     return {
       active: null,
       modalStart: null,
       modalStart2: null
-    }
+    };
   },
   computed: {
-    ...mapFields([
-      'userData',
-      'userDataOps'
-    ]),
+    ...mapFields(["userData", "userDataOps"]),
     showSecondEmp() {
       var dateStarted = new Date(this.userData.employment.dateStarted);
       var todaysDate = new Date();
@@ -305,7 +302,9 @@ export default {
       var todaysDate = new Date();
       var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
       var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      var totalDaysDiff = daysDiff + this.userData.employment.previousEmployment.monthsInEmployment*30;
+      var totalDaysDiff =
+        daysDiff +
+        this.userData.employment.previousEmployment.monthsInEmployment * 30;
       if (totalDaysDiff < 1068) {
         return true;
       } else {
@@ -313,7 +312,9 @@ export default {
       }
     },
     showSecondEmp2() {
-      var dateStarted = new Date(this.userData.applicantTwo.employment.dateStarted);
+      var dateStarted = new Date(
+        this.userData.applicantTwo.employment.dateStarted
+      );
       var todaysDate = new Date();
       var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
       var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -324,11 +325,17 @@ export default {
       }
     },
     showThirdEmp2() {
-      var dateStarted = new Date(this.userData.applicantTwo.employment.dateStarted);
+      var dateStarted = new Date(
+        this.userData.applicantTwo.employment.dateStarted
+      );
       var todaysDate = new Date();
       var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
       var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      var totalDaysDiff = daysDiff + this.userData.applicantTwo.employment.previousEmployment.monthsInEmployment*30;
+      var totalDaysDiff =
+        daysDiff +
+        this.userData.applicantTwo.employment.previousEmployment
+          .monthsInEmployment *
+          30;
       if (totalDaysDiff < 1068) {
         return true;
       } else {
@@ -349,58 +356,98 @@ export default {
       var app2 = this.userData.applicantTwo.employment;
       this.userData.checkData.employmentDetailsApp1 = true;
       this.userData.checkData.employmentDetailsApp2 = true;
-      if (!app1.currentPosition || !app1.dateStarted || !app1.onProbation || !app1.typeOfEmployment || !app1.currentEmployer || app1.baseWage == 0 || !app1.baseWageType || !app1.baseWagePeriod) {
+      if (
+        !app1.currentPosition ||
+        !app1.dateStarted ||
+        !app1.onProbation ||
+        !app1.typeOfEmployment ||
+        !app1.currentEmployer ||
+        app1.baseWage == 0 ||
+        !app1.baseWageType ||
+        !app1.baseWagePeriod
+      ) {
         this.userData.checkData.employmentDetailsApp1 = false;
       }
       if (this.showSecondEmp) {
-        if (!app1.previousEmployment.position || !app1.previousEmployment.employer || !app1.previousEmployment.monthsInEmployment || !app1.previousEmployment.typeOfEmployment) {
+        if (
+          !app1.previousEmployment.position ||
+          !app1.previousEmployment.employer ||
+          !app1.previousEmployment.monthsInEmployment ||
+          !app1.previousEmployment.typeOfEmployment
+        ) {
           this.userData.checkData.employmentDetailsApp1 = false;
         }
       }
       if (this.showThirdEmp) {
-        if (!app1.previousEmployment2.position || !app1.previousEmployment2.employer || !app1.previousEmployment2.monthsInEmployment || !app1.previousEmployment2.typeOfEmployment) {
+        if (
+          !app1.previousEmployment2.position ||
+          !app1.previousEmployment2.employer ||
+          !app1.previousEmployment2.monthsInEmployment ||
+          !app1.previousEmployment2.typeOfEmployment
+        ) {
           this.userData.checkData.employmentDetailsApp1 = false;
         }
       }
       if (this.showApplicantTwo) {
-        if (!app2.currentPosition || !app2.dateStarted || !app2.onProbation || !app2.typeOfEmployment || !app2.currentEmployer || app2.baseWage == 0 || !app2.baseWageType || !app2.baseWagePeriod) {
+        if (
+          !app2.currentPosition ||
+          !app2.dateStarted ||
+          !app2.onProbation ||
+          !app2.typeOfEmployment ||
+          !app2.currentEmployer ||
+          app2.baseWage == 0 ||
+          !app2.baseWageType ||
+          !app2.baseWagePeriod
+        ) {
           this.userData.checkData.employmentDetailsApp2 = false;
         }
       }
       if (this.showApplicantTwo && this.showSecondEmp2) {
-        if (!app2.previousEmployment.position || !app2.previousEmployment.employer || !app2.previousEmployment.monthsInEmployment || !app2.previousEmployment.typeOfEmployment) {
+        if (
+          !app2.previousEmployment.position ||
+          !app2.previousEmployment.employer ||
+          !app2.previousEmployment.monthsInEmployment ||
+          !app2.previousEmployment.typeOfEmployment
+        ) {
           this.userData.checkData.employmentDetailsApp2 = false;
         }
       }
       if (this.showApplicantTwo && this.showThirdEmp2) {
-        if (!app2.previousEmployment2.position || !app2.previousEmployment2.employer || !app2.previousEmployment2.monthsInEmployment || !app2.previousEmployment2.typeOfEmployment) {
+        if (
+          !app2.previousEmployment2.position ||
+          !app2.previousEmployment2.employer ||
+          !app2.previousEmployment2.monthsInEmployment ||
+          !app2.previousEmployment2.typeOfEmployment
+        ) {
           this.userData.checkData.employmentDetailsApp2 = false;
         }
       }
-      if (app2.notWorking){
+      if (app2.notWorking) {
         this.userData.checkData.employmentDetailsApp2 = true;
       }
-      if (this.userData.checkData.employmentDetailsApp1 == true && this.userData.checkData.employmentDetailsApp2 == true){
+      if (
+        this.userData.checkData.employmentDetailsApp1 == true &&
+        this.userData.checkData.employmentDetailsApp2 == true
+      ) {
         this.userData.checkData.employmentDetails = true;
       } else {
         this.userData.checkData.employmentDetails = false;
       }
     },
-    getAddressData: function (addressData){
+    getAddressData: function(addressData) {
       console.log(addressData);
       console.log(this);
-      if(addressData) {this.userData.employment.address = addressData;}
+      if (addressData) {
+        this.userData.employment.address = addressData;
+      }
     }
   },
-  watch: {
-
-  }
-}
+  watch: {}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h2{
-    margin:18px;
-  }
+h2 {
+  margin: 18px;
+}
 </style>

@@ -77,104 +77,114 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
-import firebase from 'firebase'
-import { createHelpers } from 'vuex-map-fields'
-
+import { mapGetters } from "vuex";
+import { mapFields } from "vuex-map-fields";
+import firebase from "firebase";
+import { createHelpers } from "vuex-map-fields";
 
 const { mapFields: mapLenderFields } = createHelpers({
-  getterType: 'lenderData/getField',
-  mutationType: 'lenderData/updateField',
+  getterType: "lenderData/getField",
+  mutationType: "lenderData/updateField"
 });
 const { mapFields: mapUserFields } = createHelpers({
-  getterType: 'getField',
-  mutationType: 'updateField',
+  getterType: "getField",
+  mutationType: "updateField"
 });
 
-  export default {
-    name: 'sideBar',
-    data: function() {
-      return {
-        loading:false
-      }
+export default {
+  name: "sideBar",
+  data: function() {
+    return {
+      loading: false
+    };
+  },
+  computed: {
+    ...mapGetters({
+      drawer: "getDrawerState"
+    }),
+    authenticated() {
+      return this.$store.state.authenticated;
     },
-    computed: {
-      ...mapGetters ({
-        drawer: 'getDrawerState'
-      }),
-      authenticated() {
-        return this.$store.state.authenticated;
-      },
-      admin() {
-        return this.$store.state.admin;
-      },
-      ...mapLenderFields([
-        'lenderData',
-        'lenderDataOps'
-      ]),
-      ...mapUserFields([
-        'userData',
-        'userDataOps'
-      ]),
-      detailsValidated() {
-        if (this.userData.checkData.basicDetails && this.userData.checkData.residentialDetails && this.userData.checkData.employmentDetails && this.userData.checkData.incomeDetails && this.userData.checkData.assetDetails && this.userData.checkData.liabilitiesDetails) {
-          return true;
-        }
-        return false;
-      }
+    admin() {
+      return this.$store.state.admin;
     },
-    methods: {
-      saveData: function() {
-        this.loading=true;
-        var vm = this;
-        if (this.authenticated) {
-          var data = {};
-          for (var element in vm.userData) {
-            data[element] = vm.userData[element];
-          };
-          firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).set(
-            data
-          ).then(function(doc) {
-            vm.$store.commit('snack', {
-              'color': 'success',
-              'message': 'Data has been saved!'
-            });
-            vm.loading=false;
-          }).catch(function(error) {
-            vm.$store.commit('snack', {
-              'color': 'error',
-              'message': 'Sorry, an error has occured.'
-            });
-            vm.loading=false;
-          });
-        } else {
-          vm.$store.commit('setUserData', vm.userData);
-          vm.loading=false;
+    ...mapLenderFields(["lenderData", "lenderDataOps"]),
+    ...mapUserFields(["userData", "userDataOps"]),
+    detailsValidated() {
+      if (
+        this.userData.checkData.basicDetails &&
+        this.userData.checkData.residentialDetails &&
+        this.userData.checkData.employmentDetails &&
+        this.userData.checkData.incomeDetails &&
+        this.userData.checkData.assetDetails &&
+        this.userData.checkData.liabilitiesDetails
+      ) {
+        return true;
+      }
+      return false;
+    }
+  },
+  methods: {
+    saveData: function() {
+      this.loading = true;
+      var vm = this;
+      if (this.authenticated) {
+        var data = {};
+        for (var element in vm.userData) {
+          data[element] = vm.userData[element];
         }
-        if (this.admin) {
-          var data = {};
-          for (var element in vm.lenderData) {
-            data[element] = vm.lenderData[element];
-          };
-          firebase.firestore().collection("lenders").doc("all").set(
-            data
-          ).then(function(doc) {
-            vm.loading=false;
-          }).catch(function(error) {
-            vm.$store.commit('snack', {
-              'color': 'error',
-              'message': 'Sorry, an error has occured.'
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .set(data)
+          .then(function(doc) {
+            vm.$store.commit("snack", {
+              color: "success",
+              message: "Data has been saved!"
             });
-            console.log("failed!")
-            vm.loading=false;
+            vm.loading = false;
+          })
+          .catch(function(error) {
+            vm.$store.commit("snack", {
+              color: "error",
+              message: "Sorry, an error has occured."
+            });
+            vm.loading = false;
           });
+      } else {
+        vm.$store.commit("setUserData", vm.userData);
+        vm.loading = false;
+      }
+      if (this.admin) {
+        var data = {};
+        for (var element in vm.lenderData) {
+          data[element] = vm.lenderData[element];
         }
+        firebase
+          .firestore()
+          .collection("lenders")
+          .doc("all")
+          .set(data)
+          .then(function(doc) {
+            vm.loading = false;
+          })
+          .catch(function(error) {
+            vm.$store.commit("snack", {
+              color: "error",
+              message: "Sorry, an error has occured."
+            });
+            console.log("failed!");
+            vm.loading = false;
+          });
       }
     }
   }
+};
 </script>
 
 <style scoped>
-  p{text-align:left}
+p {
+  text-align: left;
+}
 </style>

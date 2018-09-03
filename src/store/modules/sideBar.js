@@ -4,19 +4,19 @@ const state = {
 }
 
 const mutations = {
-  toggleSideBar (state) {
+  toggleSideBar(state) {
     state.drawer = !state.drawer;
   }
 }
 
 const actions = {
-  toggleSideBar (context) {
+  toggleSideBar(context) {
     context.commit('toggleSideBar');
   }
 }
 
 const getters = {
-  getDrawerState (state) {
+  getDrawerState(state) {
     return state.drawer;
   }
 }

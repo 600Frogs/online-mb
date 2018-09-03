@@ -95,21 +95,18 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
+import { mapFields } from "vuex-map-fields";
 
 export default {
-  name: 'income',
-  data () {
+  name: "income",
+  data() {
     return {
       active: null,
       modalDOB: null
-    }
+    };
   },
   computed: {
-    ...mapFields([
-      'userData',
-      'userDataOps'
-    ]),
+    ...mapFields(["userData", "userDataOps"]),
     showApplicantTwo() {
       if (this.userData.numberOfApplicants == "Two") {
         return true;
@@ -120,36 +117,52 @@ export default {
   },
   methods: {
     addIncome: function() {
-      this.$store.commit('addIncome', "I'm not important! ");
+      this.$store.commit("addIncome", "I'm not important! ");
     },
     removeIncome: function(i) {
-      this.$store.commit('removeIncome', i);
+      this.$store.commit("removeIncome", i);
     },
     addIncome2: function() {
-      this.$store.commit('addIncome2', "I'm not important! ");
+      this.$store.commit("addIncome2", "I'm not important! ");
     },
     removeIncome2: function(i) {
-      this.$store.commit('removeIncome2', i);
+      this.$store.commit("removeIncome2", i);
     },
     validate: function() {
       this.userData.checkData.incomeDetailsApp1 = true;
       this.userData.checkData.incomeDetailsApp2 = true;
-      if (this.userData.employment.baseWage < 1){this.userData.checkData.incomeDetailsApp1=false}
-      if (this.showApplicantTwo && !this.userData.applicantTwo.employment.notWorking && this.userData.applicantTwo.employment.baseWage < 1){this.userData.checkData.incomeDetailsApp2=false}
-      if (this.userData.checkData.incomeDetailsApp1 == true && this.userData.checkData.incomeDetailsApp2 == true){
+      if (this.userData.employment.baseWage < 1) {
+        this.userData.checkData.incomeDetailsApp1 = false;
+      }
+      if (
+        this.showApplicantTwo &&
+        !this.userData.applicantTwo.employment.notWorking &&
+        this.userData.applicantTwo.employment.baseWage < 1
+      ) {
+        this.userData.checkData.incomeDetailsApp2 = false;
+      }
+      if (
+        this.userData.checkData.incomeDetailsApp1 == true &&
+        this.userData.checkData.incomeDetailsApp2 == true
+      ) {
         this.userData.checkData.incomeDetails = true;
       } else {
         this.userData.checkData.incomeDetails = false;
       }
     }
   },
-  watch: {
-
-  }
-}
+  watch: {}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h2{margin:18px}.validationError{color:red;margin-top:-20px;margin-bottom:-21px}
+h2 {
+  margin: 18px;
+}
+.validationError {
+  color: red;
+  margin-top: -20px;
+  margin-bottom: -21px;
+}
 </style>

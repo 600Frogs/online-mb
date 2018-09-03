@@ -4,27 +4,27 @@ const state = {
   userData: {
   },
   userDataOps: {
-    yesNo:[
+    yesNo: [
       'Yes',
       'No'
     ],
-    numberOfApplicants:[
+    numberOfApplicants: [
       'One',
       'Two'
     ],
-    purchasedBefore:[
+    purchasedBefore: [
       'Yes - I currently own a house in Australia',
       'Yes - I have owned a house in Australia before',
       'Yes - Outside of Australia, but not in Australia',
       'No - I have never owned a house before'
     ],
-    citizenStatus:[
+    citizenStatus: [
       'Australian Citizen',
       'Permanent Resident',
       'Temporary Resident',
       'Other'
     ],
-    relationshipStatus:[
+    relationshipStatus: [
       'Single',
       'Defacto',
       'Engaged',
@@ -32,10 +32,10 @@ const state = {
       'Recently Divorced'
     ],
     typeOfEmployment: [
-        'Full Time Permanent',
-        'Part Time Permanent',
-        'Casual',
-        'Self-Employed'
+      'Full Time Permanent',
+      'Part Time Permanent',
+      'Casual',
+      'Self-Employed'
     ],
     baseWageType: [
       'Gross: before tax',
@@ -138,34 +138,34 @@ const state = {
 
 const mutations = {
   updateField,
-  setUserData (state, user) {
+  setUserData(state, user) {
     state.userData = user;
   },
-  addIncome (state, payload) {
-    state.userData.income.push({"amount":0, "incomeType":"test", "incomeInputType":"Net: after tax", "period":"Weekly"});
+  addIncome(state, payload) {
+    state.userData.income.push({ "amount": 0, "incomeType": "test", "incomeInputType": "Net: after tax", "period": "Weekly" });
   },
-  removeIncome (state, payload) {
-    state.userData.income.splice(payload,1);
+  removeIncome(state, payload) {
+    state.userData.income.splice(payload, 1);
   },
-  addIncome2 (state, payload) {
-    state.userData.applicantTwo.income.push({"amount":0, "incomeType":"test", "incomeInputType":"Net: after tax", "period":"Weekly"});
+  addIncome2(state, payload) {
+    state.userData.applicantTwo.income.push({ "amount": 0, "incomeType": "test", "incomeInputType": "Net: after tax", "period": "Weekly" });
   },
-  removeIncome2 (state, payload) {
-    state.userData.applicantTwo.income.splice(payload,1);
+  removeIncome2(state, payload) {
+    state.userData.applicantTwo.income.splice(payload, 1);
   },
-  addAsset (state, payload) {
-    state.userData.assets.additionalAssets.push({"assetType":"", "value":"0", "notes":"", "address":""});
+  addAsset(state, payload) {
+    state.userData.assets.additionalAssets.push({ "assetType": "", "value": "0", "notes": "", "address": "" });
   },
-  removeAsset (state, payload) {
-    state.userData.assets.additionalAssets.splice(payload,1);
+  removeAsset(state, payload) {
+    state.userData.assets.additionalAssets.splice(payload, 1);
   },
-  addLiability (state, payload) {
-    state.userData.liabilities.additionalLiabilities.push({"type":"", "lender":"", "notes":"", "moneyOwing":"0", "limit":"0", "monthlyPayments":"100", "interestRate":"4", "termRemaining":"30", "address":"","taxDeductible":"No","iOTermRemaining":"0","nameOnLoan":"Both"});
+  addLiability(state, payload) {
+    state.userData.liabilities.additionalLiabilities.push({ "type": "", "lender": "", "notes": "", "moneyOwing": "0", "limit": "0", "monthlyPayments": "100", "interestRate": "4", "termRemaining": "30", "address": "", "taxDeductible": "No", "iOTermRemaining": "0", "nameOnLoan": "Both" });
   },
-  removeLiability (state, payload) {
-    state.userData.liabilities.additionalLiabilities.splice(payload,1);
+  removeLiability(state, payload) {
+    state.userData.liabilities.additionalLiabilities.splice(payload, 1);
   },
-  resetUserData (state, payload) {
+  resetUserData(state) {
     state.userData = {
       id: 'Applicant One',
       firstName: '',
@@ -241,7 +241,7 @@ const mutations = {
         incomeDetailsApp1: false,
         incomeDetailsApp2: false,
         assetDetails: false,
-        liabilitiesDetails:false
+        liabilitiesDetails: false
       },
       applicantTwo: {
         id: 'Applicant Two',
@@ -277,14 +277,14 @@ const mutations = {
           baseWage: 0,
           baseWageType: 'Gross: before tax',
           baseWagePeriod: 'Weekly',
-          previousEmployment:{
+          previousEmployment: {
             position: '',
             employer: '',
             address: '',
             typeOfEmployment: '',
             monthsInEmployment: 36,
           },
-          previousEmployment2:{
+          previousEmployment2: {
             position: '',
             employer: '',
             address: '',
@@ -315,11 +315,12 @@ const mutations = {
             insurance: 0,
             other: 0,
             otherDetails: ''
-            },
           },
+        },
         additionalLiabilities: []
 
-      }};
+      }
+    };
 
   },
 
@@ -331,7 +332,7 @@ const actions = {
 
 const getters = {
   getField,
-  getUserData (state) {
+  getUserData(state) {
     return state.userData;
   }
 }

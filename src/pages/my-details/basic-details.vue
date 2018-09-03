@@ -2,12 +2,12 @@
   <div>
         <v-tabs fixed-tabs slider-color="red" fluid color="grey lighten-5">
           <v-tab ripple>
-            <v-icon color="red" class="validationIcon" v-if="userData.checkData.basicDetailsApp1==false">highlight_off</v-icon>
+            <v-icon color="red" class="validationIcon" v-if="!userData.checkData.basicDetailsApp1">highlight_off</v-icon>
             <v-icon color="green" class="validationIcon" v-else>check_circle</v-icon>
             Applicant 1
           </v-tab>
           <v-tab v-if="showApplicantTwo" ripple>
-            <v-icon color="red" class="validationIcon" v-if="userData.checkData.basicDetailsApp2==false">highlight_off</v-icon>
+            <v-icon color="red" class="validationIcon" v-if="!userData.checkData.basicDetailsApp2">highlight_off</v-icon>
             <v-icon color="green" class="validationIcon" v-else>check_circle</v-icon>
             Applicant 2
           </v-tab>
@@ -179,22 +179,19 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
+import { mapFields } from "vuex-map-fields";
 
 export default {
-  name: 'basicdetails',
-  data () {
+  name: "basicdetails",
+  data() {
     return {
       active: null,
       modalDOB: null,
-      modalDOB2: null,
-    }
+      modalDOB2: null
+    };
   },
   computed: {
-    ...mapFields([
-      'userData',
-      'userDataOps'
-    ]),
+    ...mapFields(["userData", "userDataOps"]),
     showApplicantTwo() {
       if (this.userData.numberOfApplicants == "Two") {
         return true;
@@ -206,11 +203,11 @@ export default {
   methods: {
     checkData: function(payload, msg) {
       if (payload == "") {
-        return "Please enter "+msg;
+        return "Please enter " + msg;
       }
       return true;
     },
-    validEmail: function (email) {
+    validEmail: function(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (re.test(email) == false) {
         return "Email not valid";
@@ -221,32 +218,43 @@ export default {
     validate: function() {
       var app1 = this.userData;
       var app2 = this.userData.applicantTwo;
-      if (!app1.firstName || !app1.surname  || this.validEmail(app1.email) != true || !app1.phoneNumber|| !app1.dateOfBirth || !app1.purchasedBefore || !app1.citizenStatus) {
+      if (
+        !app1.firstName ||
+        !app1.surname ||
+        this.validEmail(app1.email) != true ||
+        !app1.phoneNumber ||
+        !app1.dateOfBirth ||
+        !app1.purchasedBefore ||
+        !app1.citizenStatus
+      ) {
         this.userData.checkData.basicDetailsApp1 = false;
       } else {
         this.userData.checkData.basicDetailsApp1 = true;
       }
-      if (app1.showApplicantTwo && (!app2.firstName || !app2.surname  || this.validEmail(app2.email) != true || !app2.phoneNumber|| !app2.dateOfBirth || !app2.purchasedBefore || !app2.citizenStatus)) {
+      if (
+        app1.showApplicantTwo &&
+        (!app2.firstName ||
+          !app2.surname ||
+          this.validEmail(app2.email) != true ||
+          !app2.phoneNumber ||
+          !app2.dateOfBirth ||
+          !app2.purchasedBefore ||
+          !app2.citizenStatus)
+      ) {
         this.userData.checkData.basicDetailsApp2 = false;
       } else {
         this.userData.checkData.basicDetailsApp2 = true;
       }
-      if (this.userData.checkData.basicDetailsApp1 == true && this.userData.checkData.basicDetailsApp2 == true){
-        this.userData.checkData.basicDetails = true;
-      } else {
-        this.userData.checkData.basicDetails = false;
-      }
+      this.userData.checkData.basicDetails =
+        this.userData.checkData.basicDetailsApp1 == true &&
+        this.userData.checkData.basicDetailsApp2 == true;
     }
   },
-  watch: {
-
-  }
-}
+  watch: {}
+};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h2{
-    margin:18px;
-  }
+h2 {
+  margin: 18px;
+}
 </style>

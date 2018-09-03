@@ -92,37 +92,30 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
-import firebase from 'firebase'
-
+import { mapFields } from "vuex-map-fields";
+import firebase from "firebase";
 
 export default {
-  name: 'CostToPurchase',
-  data () {
+  name: "CostToPurchase",
+  data() {
     return {
       loading: false,
-      charges: [
-        {}
-      ]
-    }
+      charges: [{}]
+    };
   },
-  components: {
-
-  },
-  methods: {
-
-  },
+  components: {},
+  methods: {},
   computed: {
     deposit() {
       return this.userData.proposedLoan.deposit;
     },
     mortgageRegistration() {
-      var value = 'Error calculating.';
-      switch(this.userData.proposedLoan.state) {
-        case 'Australian Capital Territory':
+      var value = "Error calculating.";
+      switch (this.userData.proposedLoan.state) {
+        case "Australian Capital Territory":
           value = "ACTY";
           break;
-        case 'Queensland':
+        case "Queensland":
           value = 187;
       }
       return value;
@@ -131,13 +124,13 @@ export default {
       return 0;
     },
     vacantLandConcession() {
-      var value = 'Error calculating.';
+      var value = "Error calculating.";
       var purchasePrice = this.userData.proposedLoan.purchasePrice;
-      switch(this.userData.proposedLoan.state) {
-        case 'Australian Capital Territory':
+      switch (this.userData.proposedLoan.state) {
+        case "Australian Capital Territory":
           value = "ACTY";
           break;
-        case 'Queensland':
+        case "Queensland":
           if (purchasePrice < 250000) {
             value = 1000000;
           } else if (purchasePrice < 260000) {
@@ -174,28 +167,21 @@ export default {
             value = 0;
           }
           break;
-        case 2:
-          value = "Tab 2";
       }
-      if (this.userData.proposedLoan.propertyType !== 'Owner Occupied') {
+      if (this.userData.proposedLoan.propertyType !== "Owner Occupied")
         return 0;
-      }
-      if (this.userData.proposedLoan.firstHomeBuyer !== 'Yes') {
-        return 0;
-      }
-      if (this.userData.proposedLoan.securityType !== 'Vacant Land') {
-        return 0;
-      }
-      return Math.round(value*100)/100;
+      if (this.userData.proposedLoan.firstHomeBuyer !== "Yes") return 0;
+      if (this.userData.proposedLoan.securityType !== "Vacant Land") return 0;
+      return Math.round(value * 100) / 100;
     },
     firstHomeConcession() {
-      var value = 'Error calculating.';
+      var value = "Error calculating.";
       var purchasePrice = this.userData.proposedLoan.purchasePrice;
-      switch(this.userData.proposedLoan.state) {
-        case 'Australian Capital Territory':
+      switch (this.userData.proposedLoan.state) {
+        case "Australian Capital Territory":
           value = "ACTY";
           break;
-        case 'Queensland':
+        case "Queensland":
           if (purchasePrice < 505000) {
             value = 8750;
           } else if (purchasePrice < 510000) {
@@ -219,43 +205,37 @@ export default {
           } else {
             value = 0;
           }
-          if (this.userData.proposedLoan.propertyType !== 'Owner Occupied') {
+          if (this.userData.proposedLoan.propertyType !== "Owner Occupied")
             return 0;
-          }
-          if (this.userData.proposedLoan.firstHomeBuyer !== 'Yes') {
+          if (this.userData.proposedLoan.firstHomeBuyer !== "Yes") return 0;
+          if (this.userData.proposedLoan.securityType == "Vacant Land")
             return 0;
-          }
-          if (this.userData.proposedLoan.securityType == 'Vacant Land') {
-            return 0;
-          }
           break;
-        case 2:
-          value = "Tab 2";
       }
 
-      return Math.round(value*100)/100;
+      return Math.round(value * 100) / 100;
     },
     homeConcession() {
-      var value = 'Error calculating.';
+      var value = "Error calculating.";
       var purchasePrice = this.userData.proposedLoan.purchasePrice;
-      switch(this.userData.proposedLoan.state) {
-        case 'Australian Capital Territory':
+      switch (this.userData.proposedLoan.state) {
+        case "Australian Capital Territory":
           value = "ACTY";
           break;
-        case 'Queensland':
+        case "Queensland":
           if (purchasePrice <= 350000) {
-            value = purchasePrice*0.01;
+            value = purchasePrice * 0.01;
           } else if (purchasePrice <= 540000) {
-            var x = Math.ceil((purchasePrice - 350000)/100)*100;
-            value = 3500 + 0.035*x;
+            var x = Math.ceil((purchasePrice - 350000) / 100) * 100;
+            value = 3500 + 0.035 * x;
           } else if (purchasePrice <= 1000000) {
-            var x = Math.ceil((purchasePrice - 540000)/100)*100;
-            value = 10150 + 0.045*x;
+            var x = Math.ceil((purchasePrice - 540000) / 100) * 100;
+            value = 10150 + 0.045 * x;
           } else {
-            var x = Math.ceil((purchasePrice - 1000000)/100)*100;
-            value = 30850 + 0.0575*x;
+            var x = Math.ceil((purchasePrice - 1000000) / 100) * 100;
+            value = 30850 + 0.0575 * x;
           }
-          if (this.userData.proposedLoan.propertyType !== 'Owner Occupied') {
+          if (this.userData.proposedLoan.propertyType !== "Owner Occupied") {
             return 0;
           }
           break;
@@ -263,68 +243,74 @@ export default {
           value = "Tab 2";
       }
 
-      return Math.round(value*100)/100;
+      return Math.round(value * 100) / 100;
     },
     stampDuty() {
-      var value = 'Error calculating.';
+      var value = "Error calculating.";
       var purchasePrice = this.userData.proposedLoan.purchasePrice;
-      switch(this.userData.proposedLoan.state) {
-        case 'Australian Capital Territory':
+      switch (this.userData.proposedLoan.state) {
+        case "Australian Capital Territory":
           value = "ACTY";
           break;
-        case 'Queensland':
+        case "Queensland":
           if (purchasePrice <= 5000) {
             value = 0;
           } else if (purchasePrice <= 75000) {
-              var x = Math.ceil((purchasePrice - 5000)/100)*100;
-              value = 0.015*x;
+            var x = Math.ceil((purchasePrice - 5000) / 100) * 100;
+            value = 0.015 * x;
           } else if (purchasePrice <= 540000) {
-            var x = Math.ceil((purchasePrice - 75000)/100)*100;
-            value = 1050 + 0.035*x;
+            var x = Math.ceil((purchasePrice - 75000) / 100) * 100;
+            value = 1050 + 0.035 * x;
           } else if (purchasePrice <= 1000000) {
-            var x = Math.ceil((purchasePrice - 540000)/100)*100;
-            value = 17325 + 0.045*x;
+            var x = Math.ceil((purchasePrice - 540000) / 100) * 100;
+            value = 17325 + 0.045 * x;
           } else {
-            var x = Math.ceil((purchasePrice - 1000000)/100)*100;
-            value = 38025 + 0.0575*x;
+            var x = Math.ceil((purchasePrice - 1000000) / 100) * 100;
+            value = 38025 + 0.0575 * x;
           }
-          if (this.userData.proposedLoan.propertyType == 'Owner Occupied' && this.userData.proposedLoan.securityType !== 'Vacant Land') {
+          if (
+            this.userData.proposedLoan.propertyType == "Owner Occupied" &&
+            this.userData.proposedLoan.securityType !== "Vacant Land"
+          ) {
             value = this.homeConcession;
           }
-          value=value-this.firstHomeConcession-this.vacantLandConcession;
+          value = value - this.firstHomeConcession - this.vacantLandConcession;
           break;
         case 2:
           value = "Tab 2";
       }
 
-      if (value<0){value=0};
-      return Math.round(value*100)/100;
+      if (value < 0) {
+        value = 0;
+      }
+      return Math.round(value * 100) / 100;
     },
 
     authenticated() {
       return this.$store.state.authenticated;
     },
-    ...mapFields([
-      'userData',
-      'userDataOps'
-    ]),
+    ...mapFields(["userData", "userDataOps"]),
     percent() {
-      return Math.round(this.userData.proposedLoan.deposit/this.userData.proposedLoan.purchasePrice*100)+'% Deposit';
+      return (
+        Math.round(
+          this.userData.proposedLoan.deposit /
+            this.userData.proposedLoan.purchasePrice *
+            100
+        ) + "% Deposit"
+      );
     },
     lessThanFivePercent() {
-      if (this.userData.proposedLoan.deposit/this.userData.proposedLoan.purchasePrice*100<=5) {
-        return true;
-      }else{
-        return false;
-      }
+      return (
+        this.userData.proposedLoan.deposit /
+          this.userData.proposedLoan.purchasePrice *
+          100 <=
+        5
+      );
     }
   },
-  created: function() {
-  }
-}
+  created: function() {}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

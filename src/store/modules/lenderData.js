@@ -3,11 +3,11 @@ import { getField, updateField } from 'vuex-map-fields'
 const state = {
   lenderData: [],
   lenderDataOps: {
-    yesNo:[
+    yesNo: [
       'Yes',
       'No'
     ],
-    loanType:[
+    loanType: [
       'All',
       'Variable Only',
       'Fixed Only'
@@ -23,7 +23,7 @@ const state = {
 
 const mutations = {
   updateField,
-  setLenderData (state, lender) {
+  setLenderData(state, lender) {
     state.lenderData = lender;
   }
 }
@@ -34,7 +34,7 @@ const actions = {
 
 const getters = {
   getField,
-  getLenderData (state) {
+  getLenderData(state) {
     return state.lenderData;
   }
 }
