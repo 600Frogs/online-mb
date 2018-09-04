@@ -287,10 +287,10 @@ export default {
   computed: {
     ...mapFields(["userData", "userDataOps"]),
     showSecondEmp() {
-      var dateStarted = new Date(this.userData.employment.dateStarted);
-      var todaysDate = new Date();
-      var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
-      var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      let dateStarted = new Date(this.userData.employment.dateStarted);
+      let todaysDate = new Date();
+      let timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
+      let daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
       if (daysDiff < 1068) {
         return true;
       } else {
@@ -298,11 +298,11 @@ export default {
       }
     },
     showThirdEmp() {
-      var dateStarted = new Date(this.userData.employment.dateStarted);
-      var todaysDate = new Date();
-      var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
-      var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      var totalDaysDiff =
+      let dateStarted = new Date(this.userData.employment.dateStarted);
+      let todaysDate = new Date();
+      let timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
+      let daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      let totalDaysDiff =
         daysDiff +
         this.userData.employment.previousEmployment.monthsInEmployment * 30;
       if (totalDaysDiff < 1068) {
@@ -312,12 +312,12 @@ export default {
       }
     },
     showSecondEmp2() {
-      var dateStarted = new Date(
+      let dateStarted = new Date(
         this.userData.applicantTwo.employment.dateStarted
       );
-      var todaysDate = new Date();
-      var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
-      var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      let todaysDate = new Date();
+      let timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
+      let daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
       if (daysDiff < 1068) {
         return true;
       } else {
@@ -325,13 +325,13 @@ export default {
       }
     },
     showThirdEmp2() {
-      var dateStarted = new Date(
+      let dateStarted = new Date(
         this.userData.applicantTwo.employment.dateStarted
       );
-      var todaysDate = new Date();
-      var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
-      var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      var totalDaysDiff =
+      let todaysDate = new Date();
+      let timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
+      let daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      let totalDaysDiff =
         daysDiff +
         this.userData.applicantTwo.employment.previousEmployment
           .monthsInEmployment *
@@ -352,8 +352,8 @@ export default {
   },
   methods: {
     validate: function() {
-      var app1 = this.userData.employment;
-      var app2 = this.userData.applicantTwo.employment;
+      let app1 = this.userData.employment;
+      let app2 = this.userData.applicantTwo.employment;
       this.userData.checkData.employmentDetailsApp1 = true;
       this.userData.checkData.employmentDetailsApp2 = true;
       if (

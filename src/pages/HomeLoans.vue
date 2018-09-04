@@ -155,10 +155,10 @@ export default {
     ...mapLenderFields(["lenderData", "lenderDataOps"]),
     ...mapUserFields(["userData", "userDataOps"]),
     LVR() {
-      var loanAmount =
+      let loanAmount =
         this.userData.proposedLoan.purchasePrice -
         this.userData.proposedLoan.deposit;
-      var lvr = 100 * loanAmount / this.userData.proposedLoan.purchasePrice;
+      let lvr = 100 * loanAmount / this.userData.proposedLoan.purchasePrice;
       return Math.round(lvr * 100) / 100;
     },
     authenticated() {
@@ -167,13 +167,13 @@ export default {
   },
   methods: {
     updateData: function() {
-      var vm = this;
+      const vm = this;
       vm.loading = true;
       vm.$refs.filterHomeLoans.filter();
-      var products = [];
-      for (var lender in this.lenderData) {
-        for (var i in this.lenderData[lender].products) {
-          var product = this.lenderData[lender].products[i];
+      let products = [];
+      for (let lender in this.lenderData) {
+        for (let i in this.lenderData[lender].products) {
+          let product = this.lenderData[lender].products[i];
           if (
             this.userData.proposedLoan.propertyType == "Owner Occupied" &&
             !product.ownerOccupied
@@ -251,10 +251,10 @@ export default {
       vm.$forceUpdate();
     },
     calculateRepayments: function(product, type) {
-      var principal = product.proposedAmount; //Get the input principal amount
-      var interest = product.interestRate / 100 / 12;
+      let principal = product.proposedAmount; //Get the input principal amount
+      let interest = product.interestRate / 100 / 12;
 
-      var payments = this.userData.proposedLoan.term * 12;
+      let payments = this.userData.proposedLoan.term * 12;
 
       if (type == "fixed" || product.fixedPeriod > 0) {
         interest = product.fixedRate / 100 / 12;
@@ -263,16 +263,16 @@ export default {
         interest = product.introRate / 100 / 12;
       }
 
-      var x = Math.pow(1 + interest, -payments);
-      var monthly = principal * interest / (1 - x);
+      let x = Math.pow(1 + interest, -payments);
+      let monthly = principal * interest / (1 - x);
       if (
         type == "variable" &&
         (product.fixedRate > 0 || product.introRate > 0)
       ) {
-        var remainingPayments =
+        let remainingPayments =
           payments - product.fixedPeriod * 12 - product.introPeriod * 12;
-        var y = Math.pow(1 + interest, -remainingPayments);
-        var pV = monthly * (1 - y) / interest;
+        let y = Math.pow(1 + interest, -remainingPayments);
+        let pV = monthly * (1 - y) / interest;
         interest = product.interestRate / 100 / 12;
         y = Math.pow(1 + interest, -remainingPayments);
         monthly = pV * interest / (1 - y);
@@ -296,8 +296,8 @@ export default {
       this.userData.proposedLoan.amount =
         this.userData.proposedLoan.purchasePrice -
         this.userData.proposedLoan.deposit;
-      for (var i in this.lenderData) {
-        for (var j in this.lenderData[i].products) {
+      for (let i in this.lenderData) {
+        for (let j in this.lenderData[i].products) {
           this.lenderData[i].products[
             j
           ].proposedAmount = this.userData.proposedLoan.amount;
@@ -305,9 +305,9 @@ export default {
       }
     },
     lowestRepayment: function(product) {
-      var variable = this.calculateRepayments(product, "variable");
-      var fixed;
-      var intro;
+      let variable = this.calculateRepayments(product, "variable");
+      let fixed;
+      let intro;
       if (product.fixedPeriod > 0) {
         fixed = this.calculateRepayments(product, "fixed");
       } else {

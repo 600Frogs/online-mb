@@ -208,7 +208,7 @@ export default {
       return true;
     },
     validEmail: function(email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (re.test(email) == false) {
         return "Email not valid";
       } else {
@@ -216,8 +216,8 @@ export default {
       }
     },
     validate: function() {
-      var app1 = this.userData;
-      var app2 = this.userData.applicantTwo;
+      const app1 = this.userData;
+      const app2 = this.userData.applicantTwo;
       if (
         !app1.firstName ||
         !app1.surname ||

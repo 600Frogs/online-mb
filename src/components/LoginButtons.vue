@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     signIn: function() {
-      var vm = this;
+      const vm = this;
       this.loading = true;
       firebase
         .auth()
@@ -84,7 +84,7 @@ export default {
         );
     },
     signUp: function() {
-      var vm = this;
+      const vm = this;
       this.loading = true;
       firebase
         .auth()
@@ -108,10 +108,10 @@ export default {
         );
     },
     createUser: function(user) {
-      var vm = this;
+      const vm = this;
       this.loading = true;
-      var data = {};
-      for (var element in vm.userData) {
+      let data = {};
+      for (let element in vm.userData) {
         data[element] = vm.userData[element];
       }
       firebase
@@ -121,7 +121,7 @@ export default {
         .set(data);
     },
     logout: function() {
-      var vm = this;
+      const vm = this;
       this.loading = true;
       firebase
         .auth()

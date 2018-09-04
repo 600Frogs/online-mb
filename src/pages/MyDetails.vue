@@ -114,10 +114,10 @@ export default {
   methods: {
     saveData: function() {
       this.loading = true;
-      var vm = this;
+      const vm = this;
       if (this.authenticated) {
-        var data = {};
-        for (var element in vm.userData) {
+        let data = {};
+        for (let element in vm.userData) {
           data[element] = vm.userData[element];
         }
         firebase
@@ -146,7 +146,7 @@ export default {
       }
     },
     checkData: function() {
-      var vm = this;
+      const vm = this;
       vm.$refs.basicDetails.validate();
       vm.$refs.residentialDetails.validate();
       vm.$refs.employmentDetails.validate();
@@ -155,7 +155,7 @@ export default {
       vm.$refs.liabilitiesDetails.validate();
     },
     validEmail: function(email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
     }
   },

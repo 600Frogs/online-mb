@@ -110,7 +110,7 @@ export default {
       return this.userData.proposedLoan.deposit;
     },
     mortgageRegistration() {
-      var value = "Error calculating.";
+      let value = "Error calculating.";
       switch (this.userData.proposedLoan.state) {
         case "Australian Capital Territory":
           value = "ACTY";
@@ -124,8 +124,8 @@ export default {
       return 0;
     },
     vacantLandConcession() {
-      var value = "Error calculating.";
-      var purchasePrice = this.userData.proposedLoan.purchasePrice;
+      let value = "Error calculating.";
+      let purchasePrice = this.userData.proposedLoan.purchasePrice;
       switch (this.userData.proposedLoan.state) {
         case "Australian Capital Territory":
           value = "ACTY";
@@ -175,8 +175,8 @@ export default {
       return Math.round(value * 100) / 100;
     },
     firstHomeConcession() {
-      var value = "Error calculating.";
-      var purchasePrice = this.userData.proposedLoan.purchasePrice;
+      let value = "Error calculating.";
+      let purchasePrice = this.userData.proposedLoan.purchasePrice;
       switch (this.userData.proposedLoan.state) {
         case "Australian Capital Territory":
           value = "ACTY";
@@ -216,8 +216,8 @@ export default {
       return Math.round(value * 100) / 100;
     },
     homeConcession() {
-      var value = "Error calculating.";
-      var purchasePrice = this.userData.proposedLoan.purchasePrice;
+      let value = "Error calculating.";
+      let purchasePrice = this.userData.proposedLoan.purchasePrice;
       switch (this.userData.proposedLoan.state) {
         case "Australian Capital Territory":
           value = "ACTY";
@@ -226,13 +226,13 @@ export default {
           if (purchasePrice <= 350000) {
             value = purchasePrice * 0.01;
           } else if (purchasePrice <= 540000) {
-            var x = Math.ceil((purchasePrice - 350000) / 100) * 100;
+            let x = Math.ceil((purchasePrice - 350000) / 100) * 100;
             value = 3500 + 0.035 * x;
           } else if (purchasePrice <= 1000000) {
-            var x = Math.ceil((purchasePrice - 540000) / 100) * 100;
+            let x = Math.ceil((purchasePrice - 540000) / 100) * 100;
             value = 10150 + 0.045 * x;
           } else {
-            var x = Math.ceil((purchasePrice - 1000000) / 100) * 100;
+            let x = Math.ceil((purchasePrice - 1000000) / 100) * 100;
             value = 30850 + 0.0575 * x;
           }
           if (this.userData.proposedLoan.propertyType !== "Owner Occupied") {
@@ -246,8 +246,8 @@ export default {
       return Math.round(value * 100) / 100;
     },
     stampDuty() {
-      var value = "Error calculating.";
-      var purchasePrice = this.userData.proposedLoan.purchasePrice;
+      let value = "Error calculating.";
+      let purchasePrice = this.userData.proposedLoan.purchasePrice;
       switch (this.userData.proposedLoan.state) {
         case "Australian Capital Territory":
           value = "ACTY";
@@ -256,16 +256,16 @@ export default {
           if (purchasePrice <= 5000) {
             value = 0;
           } else if (purchasePrice <= 75000) {
-            var x = Math.ceil((purchasePrice - 5000) / 100) * 100;
+            let x = Math.ceil((purchasePrice - 5000) / 100) * 100;
             value = 0.015 * x;
           } else if (purchasePrice <= 540000) {
-            var x = Math.ceil((purchasePrice - 75000) / 100) * 100;
+            let x = Math.ceil((purchasePrice - 75000) / 100) * 100;
             value = 1050 + 0.035 * x;
           } else if (purchasePrice <= 1000000) {
-            var x = Math.ceil((purchasePrice - 540000) / 100) * 100;
+            let x = Math.ceil((purchasePrice - 540000) / 100) * 100;
             value = 17325 + 0.045 * x;
           } else {
-            var x = Math.ceil((purchasePrice - 1000000) / 100) * 100;
+            let x = Math.ceil((purchasePrice - 1000000) / 100) * 100;
             value = 38025 + 0.0575 * x;
           }
           if (

@@ -204,7 +204,7 @@ export default {
   computed: {
     ...mapFields(["userData", "userDataOps"]),
     showSecondAdd() {
-      var num = this.userData.residential.timeAtCurrent;
+      let num = this.userData.residential.timeAtCurrent;
       if (num < 36) {
         return true;
       } else {
@@ -212,7 +212,7 @@ export default {
       }
     },
     showThirdAdd() {
-      var num =
+      let num =
         parseInt(this.userData.residential.timeAtCurrent) +
         parseInt(this.userData.residential.timeAtPrevious);
       if (num < 36) {
@@ -222,7 +222,7 @@ export default {
       }
     },
     showSecondAdd2() {
-      var num = this.userData.applicantTwo.residential.timeAtCurrent;
+      let num = this.userData.applicantTwo.residential.timeAtCurrent;
       if (num < 36) {
         return true;
       } else {
@@ -230,7 +230,7 @@ export default {
       }
     },
     showThirdAdd2() {
-      var num =
+      let num =
         parseInt(this.userData.applicantTwo.residential.timeAtCurrent) +
         parseInt(this.userData.applicantTwo.residential.timeAtPrevious);
       if (num < 36) {
@@ -240,7 +240,7 @@ export default {
       }
     },
     needRentPaid() {
-      var status = this.userData.residential.currentArrangement;
+      let status = this.userData.residential.currentArrangement;
       if (
         status == "Renting through a Real Estate Agent" ||
         status == "Renting - Privately" ||
@@ -252,7 +252,7 @@ export default {
       }
     },
     needRentPaid2() {
-      var status = this.userData.applicantTwo.residential.currentArrangement;
+      let status = this.userData.applicantTwo.residential.currentArrangement;
       if (
         status == "Renting through a Real Estate Agent" ||
         status == "Renting - Privately" ||
@@ -278,8 +278,8 @@ export default {
       );
     },
     validate: function() {
-      var app1 = this.userData.residential;
-      var app2 = this.userData.applicantTwo.residential;
+      const app1 = this.userData.residential;
+      const app2 = this.userData.applicantTwo.residential;
       if (
         //!app1.currentAddress ||
         !app1.timeAtCurrent ||

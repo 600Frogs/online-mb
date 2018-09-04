@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     calculateMaxLoan(lender, product) {
-      var surplus = 0;
+      let surplus = 0;
       surplus =
         this.calculateIncome(this.userData, product) -
         this.calculateExpenses(lender) -
@@ -38,17 +38,16 @@ export default {
       if (surplus < 1) {
         return 0;
       }
-      var interest = product.interestRate;
+      let interest = product.interestRate;
       if (interest < parseFloat(lender.assessmentRate)) {
         interest = parseFloat(lender.assessmentRate) / 100 / 12;
       } else {
         interest = interest / 100 / 12;
       }
-      var payments = this.userData.proposedLoan.term * 12; //get the number of years to payback the loan
-      var y = Math.pow(1 + interest, payments);
-      var principal = 0;
-      var monthly = surplus;
-      var principal = monthly * (y - 1) / (y * interest);
+      let payments = this.userData.proposedLoan.term * 12; //get the number of years to payback the loan
+      let y = Math.pow(1 + interest, payments);
+      let monthly = surplus;
+      let principal = monthly * (y - 1) / (y * interest);
       if (
         !isNaN(principal) &&
         principal != Number.POSITIVE_INFINITY &&
@@ -62,7 +61,7 @@ export default {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     calculateRent: function() {
-      var rent = 0;
+      let rent = 0;
       if (
         this.userData.residential.currentArrangement ==
           "Renting through a Real Estate Agent" ||
@@ -94,9 +93,9 @@ export default {
       } else {
         interest = interest / 100 / 12;
       }
-      var payments = (term - iOTerm) * 12; //get the number of years to payback the loan
-      var y = Math.pow(1 + interest, payments);
-      var monthly = principal * y * interest / (y - 1);
+      let payments = (term - iOTerm) * 12; //get the number of years to payback the loan
+      let y = Math.pow(1 + interest, payments);
+      let monthly = principal * y * interest / (y - 1);
       if (
         !isNaN(monthly) &&
         monthly != Number.POSITIVE_INFINITY &&
@@ -106,9 +105,9 @@ export default {
       }
     },
     calculateExpenses(lender) {
-      var expenses = 0;
-      for (var i in this.userData.liabilities.additionalLiabilities) {
-        var liability = this.userData.liabilities.additionalLiabilities[i];
+      let expenses = 0;
+      for (let i in this.userData.liabilities.additionalLiabilities) {
+        let liability = this.userData.liabilities.additionalLiabilities[i];
         if (liability.type == "Credit Card") {
           expenses += parseInt(liability.limit * 0.03);
         } else if (liability.type == "Home Loan") {
@@ -126,10 +125,10 @@ export default {
       return expenses;
     },
     calculateIncome(app, product) {
-      var income = 0;
-      var basewage = 0;
-      var taxable = 0;
-      var taxFree = 0;
+      let income = 0;
+      let basewage = 0;
+      let taxable = 0;
+      let taxFree = 0;
 
       if (app.employment.baseWagePeriod == "Annually") {
         basewage = app.employment.baseWage;
@@ -149,7 +148,7 @@ export default {
 
       //Additional incomes
       for (var i in app.income) {
-        var inc = 0;
+        let inc = 0;
         if (app.income[i].period == "Annually") {
           inc = app.income[i].amount;
         } else if (app.income[i].period == "Monthly") {
@@ -178,16 +177,16 @@ export default {
       }
 
       //tax offset on investment loans
-      var offsetInv = 0;
+      let offsetInv = 0;
       if (this.userData.proposedLoan.propertyType == "Investment") {
         offsetInv = product.proposedAmount * product.interestRate / 200;
       }
       taxable -= parseFloat(offsetInv);
 
       //negative gearing
-      var offsetLiab = 0;
+      let offsetLiab = 0;
       for (i in this.userData.liabilities.additionalLiabilities) {
-        var liability = this.userData.liabilities.additionalLiabilities[i];
+        let liability = this.userData.liabilities.additionalLiabilities[i];
         if (liability.type != "Home Loan" || liability.taxDeductible != "Yes") {
           continue;
         }
@@ -210,7 +209,7 @@ export default {
       taxable -= parseFloat(offsetLiab);
 
       //resolve taxable based on current brackets
-      var tax = 0;
+      let tax = 0;
       if (taxable < 18200) {
         tax = 0;
       } else if (taxable < 37000) {
@@ -250,12 +249,12 @@ export default {
       return income / 12;
     },
     calculateLivingExpenses(lender, product) {
-      var hem = 0;
-      var app1 = this.userData;
-      var app2 = this.userData.applicantTwo;
-      var finder;
-      var mle;
-      var income = this.calculateIncome(app1, product) * 12;
+      let hem = 0;
+      let app1 = this.userData;
+      let app2 = this.userData.applicantTwo;
+      let finder;
+      let mle;
+      let income = this.calculateIncome(app1, product) * 12;
       if (
         app1.numberOfApplicants == "Two" &&
         app2.partnerOfApplicantOne == "Yes"
@@ -291,7 +290,7 @@ export default {
         app1.numberOfApplicants == "Two" &&
         app2.partnerOfApplicantOne == "No"
       ) {
-        var income = this.calculateIncome(app2, product) * 12;
+        let income = this.calculateIncome(app2, product) * 12;
         if (
           app2.relationshipStatus == "Single" ||
           app2.relationshipStatus == "Recently Divorced"
@@ -332,10 +331,10 @@ export default {
       );
     },
     calculateMonths(date) {
-      var dateStarted = new Date(date);
-      var todaysDate = new Date();
-      var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
-      var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      let dateStarted = new Date(date);
+      let todaysDate = new Date();
+      let timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
+      let daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
       return daysDiff;
     }
   },

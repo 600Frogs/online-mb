@@ -102,10 +102,10 @@ export default {
   },
   methods: {
     saveData: function() {
-      var vm = this;
+      const vm = this;
       if (this.authenticated) {
-        var data = {};
-        for (var element in vm.userData) {
+        let data = {};
+        for (let element in vm.userData) {
           data[element] = vm.userData[element];
         }
         firebase
@@ -120,7 +120,7 @@ export default {
       }
     },
     loadData: function() {
-      var vm = this;
+      const vm = this;
       if (this.authenticated) {
         firebase
           .firestore()
@@ -129,7 +129,7 @@ export default {
           .get()
           .then(function(doc) {
             if (doc.exists) {
-              for (var element in doc.data()) {
+              for (let element in doc.data()) {
                 vm.userData[element] = doc.data()[element];
               }
             } else {

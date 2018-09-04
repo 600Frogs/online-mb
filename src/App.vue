@@ -37,7 +37,7 @@ export default {
   data: () => ({}),
   methods: {
     loadUserData: function() {
-      var vm = this;
+      const vm = this;
       if (this.authenticated) {
         firebase
           .firestore()
@@ -46,7 +46,7 @@ export default {
           .get()
           .then(function(doc) {
             if (doc.exists) {
-              for (var element in doc.data()) {
+              for (let element in doc.data()) {
                 vm.userData[element] = doc.data()[element];
               }
               console.log("Loaded!");
@@ -60,7 +60,7 @@ export default {
       }
     },
     loadLenderData: function() {
-      var vm = this;
+      const vm = this;
       firebase
         .firestore()
         .collection("lenders")
@@ -68,7 +68,7 @@ export default {
         .get()
         .then(function(doc) {
           if (doc.exists) {
-            for (var element in doc.data()) {
+            for (let element in doc.data()) {
               vm.lenderData[element] = doc.data()[element];
             }
             vm.$forceUpdate();

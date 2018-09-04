@@ -362,8 +362,8 @@ export default {
         eligible: false,
         ineligibleReasons: []
       });
-      var vm = this;
-      vm.$forceUpdate();
+
+      this.$forceUpdate();
     },
     deleteProduct: function(product, lender) {
       this.lenderData[this.lenderData.indexOf(lender)].products.splice(
@@ -372,8 +372,7 @@ export default {
         ),
         1
       );
-      var vm = this;
-      vm.$forceUpdate();
+      this.$forceUpdate();
     },
     createLender: function() {
       this.lenderData.push({
@@ -476,20 +475,17 @@ export default {
         eligible: false,
         ineligibleReasons: []
       });
-      var vm = this;
-      vm.$forceUpdate();
+      this.$forceUpdate();
     },
     deleteLender: function(lender) {
       this.lenderData.splice(this.lenderData.indexOf(lender), 1);
-      var vm = this;
-      vm.$forceUpdate();
+      thiss.$forceUpdate();
     }
   },
   created: function() {}
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   padding: 30px;

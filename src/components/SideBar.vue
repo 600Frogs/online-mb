@@ -127,10 +127,10 @@ export default {
   methods: {
     saveData: function() {
       this.loading = true;
-      var vm = this;
+      const vm = this;
       if (this.authenticated) {
-        var data = {};
-        for (var element in vm.userData) {
+        let data = {};
+        for (let element in vm.userData) {
           data[element] = vm.userData[element];
         }
         firebase
@@ -157,8 +157,8 @@ export default {
         vm.loading = false;
       }
       if (this.admin) {
-        var data = {};
-        for (var element in vm.lenderData) {
+        let data = {};
+        for (let element in vm.lenderData) {
           data[element] = vm.lenderData[element];
         }
         firebase

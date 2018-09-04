@@ -23,16 +23,16 @@ export default {
     ...mapLenderFields(["lenderData", "lenderDataOps"]),
     ...mapUserFields(["userData", "userDataOps"]),
     LVR() {
-      var loanAmount =
+      let loanAmount =
         this.userData.proposedLoan.purchasePrice -
         this.userData.proposedLoan.deposit;
-      var lvr = 100 * loanAmount / this.userData.proposedLoan.purchasePrice;
+      let lvr = 100 * loanAmount / this.userData.proposedLoan.purchasePrice;
       return Math.round(lvr * 100) / 100;
     }
   },
   methods: {
     filter: function() {
-      for (var j in this.lenderData) {
+      for (let j in this.lenderData) {
         this.lenderData[j].eligible = true;
         //check lender Policy
         if (this.LVR > this.lenderData[j].maxLVRExcLMI) {
@@ -57,11 +57,11 @@ export default {
         ) {
           this.lenderData[j].eligible = false;
         }
-        var daysInEmploy = this.calculateMonths(
+        let daysInEmploy = this.calculateMonths(
           this.userData.employment.dateStarted
         );
         //Check products
-        for (var i in this.lenderData[j].products) {
+        for (let i in this.lenderData[j].products) {
           this.lenderData[j].products[i].eligible = true;
           if (this.lenderData[j].eligible == false) {
             this.lenderData[j].products[i].eligible = false;
@@ -70,18 +70,18 @@ export default {
       }
     },
     calculateMonths(date) {
-      var dateStarted = new Date(date);
-      var todaysDate = new Date();
-      var timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
-      var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      let dateStarted = new Date(date);
+      let todaysDate = new Date();
+      let timeDiff = Math.abs(todaysDate.getTime() - dateStarted.getTime());
+      let daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
       return daysDiff;
     },
     calculateRepayments: function(product) {
-      var principal = product.proposedAmount; //Get the input principal amount
-      var interest = product.interestRate / 100 / 12; //Get the input interest amnount
-      var payments = 30 * 12; //get the number of years to payback the loan
-      var y = Math.pow(1 + interest, payments);
-      var monthly = principal * y * interest / (y - 1);
+      let principal = product.proposedAmount; //Get the input principal amount
+      let interest = product.interestRate / 100 / 12; //Get the input interest amnount
+      let payments = 30 * 12; //get the number of years to payback the loan
+      let y = Math.pow(1 + interest, payments);
+      let monthly = principal * y * interest / (y - 1);
       if (
         !isNaN(monthly) &&
         monthly != Number.POSITIVE_INFINITY &&

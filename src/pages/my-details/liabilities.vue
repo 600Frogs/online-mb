@@ -89,9 +89,9 @@ export default {
   computed: {
     ...mapFields(["userData", "userDataOps"]),
     realEstate() {
-      var arr = [];
-      var arraylength = this.userData.assets.additionalAssets.length;
-      for (var i = 0; i < arraylength; i++) {
+      let arr = [];
+      let arraylength = this.userData.assets.additionalAssets.length;
+      for (let i = 0; i < arraylength; i++) {
         if (this.userData.assets.additionalAssets[i].type == "Real Estate") {
           arr.push(this.userData.assets.additionalAssets[i].address);
         }
