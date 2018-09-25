@@ -5,7 +5,7 @@
   "author": "Zak Avery",
   "private": true,
   "scripts": {
-	"localdev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "localdev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "dev": "node build/dev-server.js",
     "start": "node server.js",
     "build": "node build/build.js"
@@ -13,9 +13,11 @@
   "dependencies": {
     "express": "^4.16.3",
     "firebase": "^5.0.3",
+    "material-design-icons-iconfont": "^3.0.3",
     "nuxt": "^1.4.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vuetify": "^1.2.4",
     "vuetify-google-autocomplete": "^2.0.0-Beta.2",
     "vuex": "^3.0.1",
     "vuex-map-fields": "^1.2.3"

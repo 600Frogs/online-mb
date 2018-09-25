@@ -156,7 +156,7 @@ export default {
         vm.$store.commit("setUserData", vm.userData);
         vm.loading = false;
       }
-      if (this.admin) {
+      /* if (this.admin) {
         let data = {};
         for (let element in vm.lenderData) {
           data[element] = vm.lenderData[element];
@@ -177,7 +177,7 @@ export default {
             console.log("failed!");
             vm.loading = false;
           });
-      }
+      } */
     }
   }
 };

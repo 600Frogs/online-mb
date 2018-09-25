@@ -10,16 +10,16 @@
             </v-toolbar>
             <v-tabs fixed-tabs slider-color="cyan" fluid color="grey lighten-3">
               <template v-for="lender in lenderData">
-                <v-tab ripple>
+                <v-tab ripple :key="lender.name">
                   {{lender.name}}
                 </v-tab>
-                <v-tab-item>
+                <v-tab-item :key="lender.name">
                   <v-tabs fixed-tabs slider-color="red" fluid color="grey lighten-5">
                     <v-tab>
                       Policy
                     </v-tab>
                     <template v-for="product in lender.products">
-                      <v-tab ripple>
+                      <v-tab ripple :key="product.name">
                         {{product.name}}
                       </v-tab>
                     </template>
@@ -108,7 +108,7 @@
                       <v-layout justify-center>
                         <v-flex xs6>
                           <v-expansion-panel>
-                            <v-expansion-panel-content v-for="i in lender.mle">
+                            <v-expansion-panel-content v-for="i in lender.mle" :key="i">
                               <div slot="header">{{i.name}}</div>
                               <v-card>
                                 <v-layout justify-center>
@@ -191,7 +191,7 @@
                       </v-layout>
                     </v-tab-item>
                     <template v-for="product in lender.products">
-                      <v-tab-item>
+                      <v-tab-item :key="product.name">
                         <v-layout justify-center>
                           <v-flex xs3>
                             <v-text-field type="text" v-model="product.name" label="Product Name"></v-text-field>
@@ -305,6 +305,7 @@
               </template>
             </v-tabs>
             <v-btn :loading="loading" :disabled="loading" color="secondary" @click.native="createLender">NEW LENDER</v-btn>
+            <v-btn :loading="loading" :disabled="loading" color="error" @click.native="saveData">SAVE DATA</v-btn>
           </v-flex>
         </v-layout>
       </v-container>
@@ -480,6 +481,33 @@ export default {
     deleteLender: function(lender) {
       this.lenderData.splice(this.lenderData.indexOf(lender), 1);
       thiss.$forceUpdate();
+    },
+    saveData: function() {
+      let vm = this;
+      let data = {};
+      for (let element in vm.lenderData) {
+        data[element] = vm.lenderData[element];
+      }
+      firebase
+        .firestore()
+        .collection("lenders")
+        .doc("all")
+        .set(data)
+        .then(function(doc) {
+          vm.loading = false;
+          vm.$store.commit("snack", {
+            color: "success",
+            message: "Lender data saved!"
+          });
+        })
+        .catch(function(error) {
+          vm.$store.commit("snack", {
+            color: "error",
+            message: "Sorry, an error has occured."
+          });
+          console.log("failed!");
+          vm.loading = false;
+        });
     }
   },
   created: function() {}
